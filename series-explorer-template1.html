@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datavance — Portfolio Overview</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f1b2d;
+      --navy2: #162336;
+      --accent: #3d8ef0;
+      --accent2: #5eaaf7;
+      --teal: #1d9e75;
+      --amber: #ba7517;
+      --coral: #d85a30;
+      --purple: #7f77dd;
+      --green: #639922;
+      --border: rgba(255,255,255,0.08);
+      --text1: #e8edf5;
+      --text2: #8a9ab5;
+      --text3: #5a6a80;
+      --row-a: rgba(61,142,240,0.06);
+      --row-b: rgba(29,158,117,0.07);
+      --row-c: rgba(186,117,23,0.07);
+      --row-d: rgba(127,119,221,0.07);
+      --hover: rgba(255,255,255,0.04);
+    }
+
+    html, body { height: 100%; }
+    body { background: var(--navy); font-family: 'DM Sans', sans-serif; color: var(--text1); }
+
+    /* ── Header ── */
+    header {
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: var(--text1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    nav { display: flex; gap: 4px; margin-left: auto; }
+
+    .nav-link {
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: all 0.15s;
+      font-weight: 400;
+    }
+
+    .nav-link:hover { background: rgba(255,255,255,0.06); color: var(--text1); }
+    .nav-link.active { background: rgba(61,142,240,0.15); color: var(--accent2); }
+
+    /* ── Main ── */
+    main { padding: 28px 32px 48px; max-width: 1400px; margin: 0 auto; }
+
+    .page-title {
+      font-family: 'Fraunces', serif;
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--text1);
+      margin-bottom: 4px;
+      letter-spacing: -0.4px;
+    }
+
+    .page-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+
+    /* ── Controls ── */
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      align-items: flex-end;
+    }
+
+    .ctrl-group { display: flex; flex-direction: column; gap: 5px; }
+
+    .ctrl-label {
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    select {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      color: var(--text1);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 8px 32px 8px 12px;
+      border-radius: 8px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a9ab5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      cursor: pointer;
+      min-width: 140px;
+      transition: border-color 0.15s;
+    }
+
+    select:hover { border-color: rgba(255,255,255,0.18); }
+    select:focus { outline: none; border-color: var(--accent); }
+
+    .btn-apply {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 16px;
+    }
+    .btn-apply:hover { opacity: 0.85; }
+
+    /* ── Chart card ── */
+    .chart-card {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px 16px;
+      margin-bottom: 28px;
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .chart-title { font-size: 14px; font-weight: 500; color: var(--text1); }
+
+    .legend { display: flex; gap: 16px; }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+    .chart-wrap { position: relative; height: 240px; }
+
+    /* ── Table card ── */
+    .table-card {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-header-bar {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-title { font-size: 14px; font-weight: 500; color: var(--text1); }
+
+    .badge {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .badge-blue { background: rgba(61,142,240,0.15); color: var(--accent2); }
+
+    .table-scroll { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 900px; }
+
+    th {
+      background: rgba(255,255,255,0.03);
+      color: var(--text3);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 9px 12px;
+      color: var(--text1);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* Row type color strips */
+    .row-a td:first-child { border-left: 3px solid var(--accent); }
+    .row-b td:first-child { border-left: 3px solid var(--teal); }
+    .row-c td:first-child { border-left: 3px solid var(--amber); }
+    .row-d td:first-child { border-left: 3px solid var(--purple); }
+
+    .row-a { background: var(--row-a); }
+    .row-b { background: var(--row-b); }
+    .row-c { background: var(--row-c); }
+    .row-d { background: var(--row-d); }
+
+    tr:hover > td { background: var(--hover); }
+
+    /* Expand button */
+    .expand-btn {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: all 0.15s;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .expand-btn:hover {
+      background: rgba(61,142,240,0.2);
+      color: var(--accent2);
+      border-color: var(--accent);
+    }
+
+    .expand-btn.open {
+      background: rgba(61,142,240,0.2);
+      color: var(--accent2);
+      border-color: var(--accent);
+    }
+
+    .expand-arrow { transition: transform 0.2s; display: inline-block; }
+    .expand-btn.open .expand-arrow { transform: rotate(90deg); }
+
+    /* Sub rows */
+    .sub-row { display: none; }
+    .sub-row.visible { display: table-row; }
+
+    .sub-row td {
+      background: rgba(0,0,0,0.2);
+      color: var(--text2);
+      font-size: 11px;
+      padding: 7px 12px 7px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .sub-row td:first-child {
+      border-left: 3px solid transparent;
+      padding-left: 40px;
+    }
+
+    /* Chips / badges */
+    .chip {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .chip-green  { background: rgba(99,153,34,0.2);    color: #8fcf40; }
+    .chip-red    { background: rgba(216,90,48,0.2);    color: #f07050; }
+    .chip-gray   { background: rgba(138,154,181,0.15); color: var(--text2); }
+    .chip-blue   { background: rgba(61,142,240,0.15);  color: var(--accent2); }
+    .chip-amber  { background: rgba(186,117,23,0.2);   color: #e8a030; }
+
+    .cell-num { font-variant-numeric: tabular-nums; text-align: right; }
+    th.cell-num { text-align: right; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#"><div class="logo-dot"></div>Datavance</a>
+  <nav>
+    <a class="nav-link active" href="#">Home</a>
+    <a class="nav-link" href="#">Analytics</a>
+    <a class="nav-link" href="#">Reports</a>
+    <a class="nav-link" href="#">Settings</a>
+  </nav>
+</header>
+
+<main>
+  <p class="page-title">Portfolio Overview</p>
+  <p class="page-sub">Real-time performance metrics across all segments</p>
+
+  <!-- Filter controls -->
+  <div class="controls">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Region</span>
+      <select id="sel-region">
+        <option>All Regions</option>
+        <option>North America</option>
+        <option>Europe</option>
+        <option>Asia Pacific</option>
+        <option>Latin America</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Segment</span>
+      <select id="sel-segment">
+        <option>All Segments</option>
+        <option>Enterprise</option>
+        <option>Mid-Market</option>
+        <option>SMB</option>
+        <option>Consumer</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Period</span>
+      <select id="sel-period">
+        <option>Last 12 Months</option>
+        <option>Last 6 Months</option>
+        <option>Last 3 Months</option>
+        <option>YTD</option>
+        <option>Custom</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Metric</span>
+      <select id="sel-metric">
+        <option>Revenue</option>
+        <option>Units Sold</option>
+        <option>Margin %</option>
+        <option>Customer Count</option>
+        <option>NPS Score</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Group by</span>
+      <select id="sel-group">
+        <option>Month</option>
+        <option>Quarter</option>
+        <option>Week</option>
+        <option>Year</option>
+      </select>
+    </div>
+    <button class="btn-apply" onclick="updateChart()">Apply</button>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Revenue vs Target — Last 12 Months</span>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#3d8ef0"></div>Actual
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#5eaaf7;opacity:0.4"></div>Target
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#1d9e75"></div>Forecast
+        </div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="mainChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+    <div class="table-header-bar">
+      <span class="table-title">Detailed Records</span>
+      <span class="badge badge-blue">180 rows</span>
+    </div>
+    <div class="table-scroll">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th style="width:32px"></th>
+            <th>ID</th>
+            <th>Account</th>
+            <th>Region</th>
+            <th>Segment</th>
+            <th class="cell-num">Revenue</th>
+            <th class="cell-num">Target</th>
+            <th class="cell-num">Var %</th>
+            <th class="cell-num">Units</th>
+            <th class="cell-num">Margin</th>
+            <th>Rep</th>
+            <th>Channel</th>
+            <th>Product</th>
+            <th>Tier</th>
+            <th class="cell-num">Orders</th>
+            <th class="cell-num">Avg Deal</th>
+            <th class="cell-num">NPS</th>
+            <th>Status</th>
+            <th class="cell-num">Churn %</th>
+            <th>Updated</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  /* ── Chart ── */
+  const months   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const actual   = [4.1,4.6,5.0,5.4,4.9,5.8,6.1,5.7,6.4,6.9,7.2,7.8];
+  const target   = [4.5,4.8,5.2,5.5,5.5,6.0,6.2,6.0,6.5,7.0,7.0,7.5];
+  const forecast = [null,null,null,null,null,null,null,null,null,6.9,7.4,8.0];
+
+  let chartInstance = null;
+
+  function buildChart(act, tgt, fcast) {
+    const ctx = document.getElementById('mainChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      data: {
+        labels: months,
+        datasets: [
+          {
+            type: 'bar',
+            label: 'Target',
+            data: tgt,
+            backgroundColor: 'rgba(94,170,247,0.15)',
+            borderColor: 'rgba(94,170,247,0.35)',
+            borderWidth: 1,
+            borderRadius: 3,
+            yAxisID: 'y'
+          },
+          {
+            type: 'line',
+            label: 'Actual',
+            data: act,
+            borderColor: '#3d8ef0',
+            backgroundColor: 'rgba(61,142,240,0.08)',
+            pointBackgroundColor: '#3d8ef0',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            borderWidth: 2,
+            tension: 0.35,
+            fill: true,
+            yAxisID: 'y'
+          },
+          {
+            type: 'line',
+            label: 'Forecast',
+            data: fcast,
+            borderColor: '#1d9e75',
+            borderDash: [5,4],
+            pointBackgroundColor: '#1d9e75',
+            pointRadius: 4,
+            borderWidth: 1.5,
+            tension: 0.35,
+            yAxisID: 'y',
+            spanGaps: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: '#8a9ab5', font: { size: 11 } }
+          },
+          y: {
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: {
+              color: '#8a9ab5',
+              font: { size: 11 },
+              callback: v => '$' + v.toFixed(1) + 'M'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function jitter(base, pct) {
+    return +(base * (1 + (Math.random() - 0.5) * pct * 2)).toFixed(2);
+  }
+
+  function updateChart() {
+    const act2   = actual.map(v => jitter(v, 0.08));
+    const tgt2   = target.map(v => jitter(v, 0.04));
+    const fcast2 = forecast.map(v => v ? jitter(v, 0.06) : null);
+    buildChart(act2, tgt2, fcast2);
+  }
+
+  buildChart(actual, target, forecast);
+
+  /* ── Table ── */
+  const rowTypes = [
+    { cls: 'row-a', seg: 'Enterprise', col: 'chip-blue'  },
+    { cls: 'row-b', seg: 'Mid-Market', col: 'chip-green' },
+    { cls: 'row-c', seg: 'SMB',        col: 'chip-amber' },
+    { cls: 'row-d', seg: 'Consumer',   col: 'chip-blue'  }
+  ];
+
+  const accountNames = [
+    'Apex Corp','Brightfield','Crestline','Duskwood','Everhill',
+    'Fable Inc','Greystone','Holloway','Iris Labs','Jetform',
+    'Kova Systems','Luminary','Meriter','Novella','Orbit Co'
+  ];
+
+  const regions   = ['North America','Europe','Asia Pacific','LATAM'];
+  const reps      = ['A. Chen','B. Kapoor','C. Díaz','D. Müller','E. Smith','F. Park'];
+  const channels  = ['Direct','Partner','Online','Reseller'];
+  const products  = ['Core','Pro','Enterprise','Lite','Plus'];
+  const tiers     = ['Gold','Silver','Bronze','Platinum'];
+  const statuses  = ['Active','At Risk','New','Churned','Renewal'];
+  const statusCls = ['chip-green','chip-red','chip-blue','chip-red','chip-amber'];
+  const dates     = ['Jan 14','Feb 02','Feb 28','Mar 17','Apr 03','Dec 09'];
+
+  const subDetails = [
+    ['Contacts', 'Primary: M. Johnson', 'Secondary: K. Lee', 'Last Call: Mar 12'],
+    ['Notes',    'Renewal in 60d',      'Upsell opp: Pro+', 'Legal review pending'],
+    ['History',  'Joined: Q1 2022',     'Upgrades: 2',      'Support tickets: 4']
+  ];
+
+  function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmtM(v)   { return '$' + v.toFixed(2) + 'M'; }
+  function fmtPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+
+  function buildTable() {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+
+    for (let i = 0; i < 15; i++) {
+      const rt     = rowTypes[i % 4];
+      const rev    = +(2 + Math.random() * 8).toFixed(2);
+      const tgt2   = +(rev * (0.85 + Math.random() * 0.3)).toFixed(2);
+      const varPct = +((rev / tgt2 - 1) * 100).toFixed(1);
+      const varCls = varPct >= 0 ? 'chip-green' : 'chip-red';
+      const units  = Math.floor(100 + Math.random() * 900);
+      const margin = +(20 + Math.random() * 40).toFixed(1);
+      const orders = Math.floor(5 + Math.random() * 95);
+      const avg    = +(rev * 1000 / orders).toFixed(0);
+      const nps    = Math.floor(20 + Math.random() * 80);
+      const npsC   = nps >= 60 ? 'chip-green' : nps >= 40 ? 'chip-amber' : 'chip-red';
+      const si     = Math.floor(Math.random() * 5);
+      const churn  = +(Math.random() * 15).toFixed(1);
+      const subId  = 'sub-' + i;
+
+      const tr = document.createElement('tr');
+      tr.className = rt.cls;
+      tr.innerHTML = `
+        <td>
+          <button class="expand-btn" onclick="toggleSub('${subId}', this)" title="Expand">
+            <span class="expand-arrow">›</span>
+          </button>
+        </td>
+        <td style="color:var(--text2);font-size:11px">ACC-${String(1000 + i).padStart(4,'0')}</td>
+        <td><span style="font-weight:500">${accountNames[i]}</span></td>
+        <td style="color:var(--text2)">${rand(regions)}</td>
+        <td><span class="chip ${rt.col}">${rt.seg}</span></td>
+        <td class="cell-num">${fmtM(rev)}</td>
+        <td class="cell-num" style="color:var(--text2)">${fmtM(tgt2)}</td>
+        <td class="cell-num"><span class="chip ${varCls}">${fmtPct(varPct)}</span></td>
+        <td class="cell-num">${units.toLocaleString()}</td>
+        <td class="cell-num">${margin}%</td>
+        <td style="color:var(--text2)">${rand(reps)}</td>
+        <td style="color:var(--text2)">${rand(channels)}</td>
+        <td>${rand(products)}</td>
+        <td><span class="chip chip-gray">${rand(tiers)}</span></td>
+        <td class="cell-num">${orders}</td>
+        <td class="cell-num">$${Number(avg).toLocaleString()}</td>
+        <td class="cell-num"><span class="chip ${npsC}">${nps}</span></td>
+        <td><span class="chip ${statusCls[si]}">${statuses[si]}</span></td>
+        <td class="cell-num" style="color:${churn > 10 ? '#f07050' : 'var(--text2)'}">
+          ${churn}%
+        </td>
+        <td style="color:var(--text3);font-size:11px">${rand(dates)}</td>
+      `;
+      tbody.appendChild(tr);
+
+      subDetails.forEach((detail, di) => {
+        const sub = document.createElement('tr');
+        sub.className = 'sub-row';
+        sub.id = subId + '-' + di;
+        sub.innerHTML = `
+          <td></td>
+          <td style="color:var(--text3);font-size:11px;font-weight:500">${detail[0]}</td>
+          <td colspan="18" style="color:var(--text2)">${detail.slice(1).join(' · ')}</td>
+        `;
+        tbody.appendChild(sub);
+      });
+    }
+  }
+
+  function toggleSub(subId, btn) {
+    const isOpen = btn.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+    for (let di = 0; di < 3; di++) {
+      const sub = document.getElementById(subId + '-' + di);
+      if (sub) sub.classList.toggle('visible', !isOpen);
+    }
+  }
+
+  buildTable();
+</script>
+</body>
+</html>

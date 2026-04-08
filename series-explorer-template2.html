@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datavance — Portfolio Overview</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0f1b2d;
+      --navy2:   #162336;
+      --navy3:   #1d2f45;
+      --accent:  #3d8ef0;
+      --accent2: #5eaaf7;
+      --teal:    #1d9e75;
+      --amber:   #ba7517;
+      --purple:  #7f77dd;
+      --border:  rgba(255,255,255,0.08);
+      --text1:   #e8edf5;
+      --text2:   #8a9ab5;
+      --text3:   #5a6a80;
+      --row-a:   rgba(61,142,240,0.06);
+      --row-b:   rgba(29,158,117,0.07);
+      --row-c:   rgba(186,117,23,0.07);
+      --row-d:   rgba(127,119,221,0.07);
+      --hover:   rgba(255,255,255,0.04);
+    }
+
+    html, body { height: 100%; }
+    body { background: var(--navy); font-family: 'DM Sans', sans-serif; color: var(--text1); }
+
+    /* ── Header ── */
+    header {
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: var(--text1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+    nav { display: flex; gap: 4px; margin-left: auto; }
+
+    .nav-link {
+      font-size: 13px; color: var(--text2); text-decoration: none;
+      padding: 6px 14px; border-radius: 6px; transition: all 0.15s; font-weight: 400;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.06); color: var(--text1); }
+    .nav-link.active { background: rgba(61,142,240,0.15); color: var(--accent2); }
+
+    /* ── Main ── */
+    main { padding: 28px 32px 48px; }
+
+    .page-title {
+      font-family: 'Fraunces', serif; font-size: 26px; font-weight: 300;
+      color: var(--text1); margin-bottom: 4px; letter-spacing: -0.4px;
+    }
+    .page-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+
+    /* ── Controls ── */
+    .controls {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 28px; align-items: flex-end;
+    }
+    .ctrl-group { display: flex; flex-direction: column; gap: 5px; }
+    .ctrl-label { font-size: 11px; color: var(--text3); letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; }
+
+    select {
+      background: var(--navy2); border: 1px solid var(--border);
+      color: var(--text1); font-family: 'DM Sans', sans-serif;
+      font-size: 13px; padding: 8px 32px 8px 12px;
+      border-radius: 8px; appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a9ab5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+      cursor: pointer; min-width: 140px; transition: border-color 0.15s;
+    }
+    select:hover { border-color: rgba(255,255,255,0.18); }
+    select:focus { outline: none; border-color: var(--accent); }
+
+    .btn-apply {
+      background: var(--accent); border: none; color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      padding: 9px 20px; border-radius: 8px; cursor: pointer;
+      transition: opacity 0.15s; margin-top: 16px;
+    }
+    .btn-apply:hover { opacity: 0.85; }
+
+    /* ── Chart card ── */
+    .chart-card {
+      background: var(--navy2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 24px 16px; margin-bottom: 28px;
+    }
+    .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .chart-title { font-size: 14px; font-weight: 500; color: var(--text1); }
+    .legend { display: flex; gap: 16px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+    .chart-wrap { position: relative; height: 240px; }
+
+    /* ── Table card ── */
+    .table-card {
+      background: var(--navy2); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .table-header-bar {
+      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .table-title { font-size: 14px; font-weight: 500; color: var(--text1); }
+    .tbar-right { display: flex; align-items: center; gap: 10px; }
+
+    .badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+    .badge-blue { background: rgba(61,142,240,0.15); color: var(--accent2); }
+
+    .btn-clear-filters {
+      font-size: 11px; padding: 4px 10px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text2); cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s; display: none;
+    }
+    .btn-clear-filters:hover { border-color: var(--accent); color: var(--accent2); }
+    .btn-clear-filters.visible { display: inline-block; }
+
+    .table-scroll { overflow-x: auto; max-height: 540px; overflow-y: auto; }
+    .table-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .table-scroll::-webkit-scrollbar-track { background: transparent; }
+    .table-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    .table-scroll::-webkit-scrollbar-corner { background: transparent; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+    thead { position: sticky; top: 0; z-index: 10; }
+
+    th {
+      background: var(--navy3);
+      color: var(--text3);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 0;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+      user-select: none;
+    }
+    th:last-child { border-right: none; }
+
+    .th-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 10px; gap: 4px;
+    }
+    .th-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+    .filter-btn {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border: 1px solid transparent; border-radius: 4px;
+      background: transparent; color: var(--text3);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.12s; padding: 0; font-size: 10px;
+    }
+    .filter-btn:hover { background: rgba(255,255,255,0.08); color: var(--text2); border-color: var(--border); }
+    .filter-btn.active { background: rgba(61,142,240,0.2); color: var(--accent2); border-color: var(--accent); }
+
+    td {
+      padding: 8px 10px; color: var(--text1);
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid rgba(255,255,255,0.04);
+      white-space: nowrap; vertical-align: middle;
+    }
+    td:last-child { border-right: none; }
+    tr:last-child td { border-bottom: none; }
+
+    /* Row color strips on description cell */
+    .row-a .desc-cell { border-left: 3px solid var(--accent); }
+    .row-b .desc-cell { border-left: 3px solid var(--teal); }
+    .row-c .desc-cell { border-left: 3px solid var(--amber); }
+    .row-d .desc-cell { border-left: 3px solid var(--purple); }
+
+    .row-a { background: var(--row-a); }
+    .row-b { background: var(--row-b); }
+    .row-c { background: var(--row-c); }
+    .row-d { background: var(--row-d); }
+
+    tr.data-row:hover > td { background: var(--hover); }
+    tr.filtered-out { display: none; }
+
+    /* ── Checkbox column ── */
+    .cb-cell { width: 36px; text-align: center; }
+    input[type="checkbox"] { width: 14px; height: 14px; cursor: pointer; accent-color: var(--accent); }
+
+    /* ── Description column ── */
+    .desc-cell { min-width: 230px; max-width: 280px; }
+    .desc-name { font-weight: 500; font-size: 12px; color: var(--text1); }
+    .desc-sub  { font-size: 11px; color: var(--text2); margin-top: 1px; }
+
+    /* ── Month columns ── */
+    .month-cell { min-width: 74px; text-align: right; font-variant-numeric: tabular-nums; font-size: 11px; }
+    th.month-cell .th-inner { justify-content: flex-end; }
+    th.month-cell .filter-btn { order: -1; margin-right: 2px; }
+
+    .val-pos { color: #6dd99a; }
+    .val-neg { color: #f07050; }
+    .val-neu { color: var(--text3); }
+
+    /* ── Category column ── */
+    .cat-cell { min-width: 110px; }
+
+    .chip {
+      display: inline-block; padding: 2px 8px;
+      border-radius: 4px; font-size: 11px; font-weight: 500;
+    }
+    .chip-green  { background: rgba(99,153,34,0.2);    color: #8fcf40; }
+    .chip-red    { background: rgba(216,90,48,0.2);    color: #f07050; }
+    .chip-blue   { background: rgba(61,142,240,0.15);  color: var(--accent2); }
+    .chip-amber  { background: rgba(186,117,23,0.2);   color: #e8a030; }
+    .chip-purple { background: rgba(127,119,221,0.18); color: #a8a2f0; }
+    .chip-teal   { background: rgba(29,158,117,0.18);  color: #3ecfa0; }
+
+    /* ── Expand button ── */
+    .expand-btn {
+      width: 20px; height: 20px; border-radius: 5px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.05);
+      color: var(--text2); cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; transition: all 0.15s; line-height: 1; flex-shrink: 0;
+    }
+    .expand-btn:hover { background: rgba(61,142,240,0.2); color: var(--accent2); border-color: var(--accent); }
+    .expand-btn.open  { background: rgba(61,142,240,0.2); color: var(--accent2); border-color: var(--accent); }
+    .expand-arrow { transition: transform 0.2s; display: inline-block; }
+    .expand-btn.open .expand-arrow { transform: rotate(90deg); }
+
+    .sub-row { display: none; }
+    .sub-row.visible { display: table-row; }
+    .sub-row td {
+      background: rgba(0,0,0,0.25); color: var(--text2); font-size: 11px;
+      padding: 6px 10px 6px 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* ── Filter Dropdown ── */
+    .filter-dropdown {
+      position: fixed;
+      background: var(--navy2);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      width: 224px;
+      z-index: 9999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+      display: none;
+    }
+    .filter-dropdown.open { display: block; }
+
+    .fd-search-wrap { padding: 10px 10px 6px; border-bottom: 1px solid var(--border); }
+    .fd-search {
+      width: 100%; background: var(--navy3);
+      border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text1); font-family: 'DM Sans', sans-serif;
+      font-size: 12px; padding: 6px 10px; outline: none;
+    }
+    .fd-search:focus { border-color: var(--accent); }
+    .fd-search::placeholder { color: var(--text3); }
+
+    .fd-actions {
+      display: flex; gap: 6px; padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .fd-act-btn {
+      font-size: 11px; color: var(--accent2); background: none;
+      border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      padding: 2px 4px; border-radius: 4px; transition: background 0.12s;
+    }
+    .fd-act-btn:hover { background: rgba(61,142,240,0.12); }
+
+    .fd-list { max-height: 200px; overflow-y: auto; padding: 4px 0; }
+    .fd-list::-webkit-scrollbar { width: 4px; }
+    .fd-list::-webkit-scrollbar-track { background: transparent; }
+    .fd-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+    .fd-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px; cursor: pointer; transition: background 0.1s;
+      font-size: 12px; color: var(--text1);
+    }
+    .fd-item:hover { background: rgba(255,255,255,0.05); }
+    .fd-item input[type="checkbox"] { width: 13px; height: 13px; flex-shrink: 0; }
+    .fd-item-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .fd-footer {
+      padding: 8px 10px; border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 6px;
+    }
+    .fd-btn {
+      font-size: 12px; padding: 5px 14px; border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.12s;
+    }
+    .fd-btn-cancel { background: transparent; border: 1px solid var(--border); color: var(--text2); }
+    .fd-btn-cancel:hover { border-color: rgba(255,255,255,0.2); color: var(--text1); }
+    .fd-btn-apply { background: var(--accent); border: 1px solid var(--accent); color: #fff; }
+    .fd-btn-apply:hover { opacity: 0.85; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#"><div class="logo-dot"></div>Datavance</a>
+  <nav>
+    <a class="nav-link active" href="#">Home</a>
+    <a class="nav-link" href="#">Analytics</a>
+    <a class="nav-link" href="#">Reports</a>
+    <a class="nav-link" href="#">Settings</a>
+  </nav>
+</header>
+
+<main>
+  <p class="page-title">Portfolio Overview</p>
+  <p class="page-sub">Performance metrics by account — Jan 2025 through Sep 2026</p>
+
+  <div class="controls">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Region</span>
+      <select><option>All Regions</option><option>North America</option><option>Europe</option><option>Asia Pacific</option><option>Latin America</option></select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Period</span>
+      <select><option>Full Range</option><option>2025 Only</option><option>2026 YTD</option><option>Last 6 Months</option></select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Metric</span>
+      <select><option>Revenue ($M)</option><option>Units Sold</option><option>Margin %</option><option>NPS Score</option></select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">View</span>
+      <select><option>Actuals</option><option>vs Target</option><option>MoM Change</option><option>YoY Change</option></select>
+    </div>
+    <button class="btn-apply" onclick="updateChart()">Apply</button>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Revenue — Jan 2025 to Sep 2026</span>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#3d8ef0"></div>Actual</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5eaaf7;opacity:0.35"></div>Target</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1d9e75"></div>Forecast</div>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-header-bar">
+      <span class="table-title">Detailed Records</span>
+      <div class="tbar-right">
+        <button class="btn-clear-filters" id="clearFiltersBtn" onclick="clearAllFilters()">✕ Clear filters</button>
+        <span class="badge badge-blue" id="rowCountBadge">15 rows</span>
+      </div>
+    </div>
+    <div class="table-scroll" id="tableScroll">
+      <table id="dataTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<!-- Shared filter dropdown -->
+<div class="filter-dropdown" id="filterDropdown">
+  <div class="fd-search-wrap">
+    <input type="text" class="fd-search" id="fdSearch" placeholder="Search values…" oninput="filterDropdownSearch()" />
+  </div>
+  <div class="fd-actions">
+    <button class="fd-act-btn" onclick="fdSelectAll()">Select all</button>
+    <button class="fd-act-btn" onclick="fdClearAll()">Clear all</button>
+  </div>
+  <div class="fd-list" id="fdList"></div>
+  <div class="fd-footer">
+    <button class="fd-btn fd-btn-cancel" onclick="closeDropdown()">Cancel</button>
+    <button class="fd-btn fd-btn-apply" onclick="applyDropdownFilter()">Apply</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ══════════════════════════════════════════════════
+   CONSTANTS
+══════════════════════════════════════════════════ */
+const MONTHS = [
+  'Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25',
+  'Aug 25','Sep 25','Oct 25','Nov 25','Dec 25',
+  'Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26',
+  'Jul 26','Aug 26','Sep 26'
+]; // 21 months = cols 2..22; col 23 = Category
+
+// Column index mapping:
+// 0 = checkbox, 1 = description, 2-22 = months (idx 0-20), 23 = category
+const COL_DESC = 1;
+const COL_CAT  = 23;
+const N_MONTHS = 21;
+
+const CATEGORIES = ['Revenue','OpEx','CapEx','Headcount','Pipeline','Margin'];
+const CAT_CHIP   = {
+  Revenue:   'chip-blue',
+  OpEx:      'chip-red',
+  CapEx:     'chip-amber',
+  Headcount: 'chip-purple',
+  Pipeline:  'chip-teal',
+  Margin:    'chip-green'
+};
+
+const ROW_TYPES = [
+  { cls:'row-a' }, { cls:'row-b' }, { cls:'row-c' }, { cls:'row-d' }
+];
+
+const ACCOUNTS = [
+  { name:'Apex Corp',    sub:'North America · Direct'  },
+  { name:'Brightfield',  sub:'Europe · Partner'        },
+  { name:'Crestline',    sub:'Asia Pacific · Online'   },
+  { name:'Duskwood',     sub:'LATAM · Reseller'        },
+  { name:'Everhill',     sub:'North America · Partner' },
+  { name:'Fable Inc',    sub:'Europe · Direct'         },
+  { name:'Greystone',    sub:'Asia Pacific · Direct'   },
+  { name:'Holloway',     sub:'LATAM · Online'          },
+  { name:'Iris Labs',    sub:'North America · Online'  },
+  { name:'Jetform',      sub:'Europe · Reseller'       },
+  { name:'Kova Systems', sub:'Asia Pacific · Partner'  },
+  { name:'Luminary',     sub:'North America · Direct'  },
+  { name:'Meriter',      sub:'Europe · Online'         },
+  { name:'Novella',      sub:'LATAM · Direct'          },
+  { name:'Orbit Co',     sub:'North America · Partner' }
+];
+
+const SUB_DETAILS = [
+  ['Contacts',   'Primary: M. Johnson', 'Secondary: K. Lee',   'Last Call: Mar 12'],
+  ['Notes',      'Renewal in 60d',      'Upsell opp: Pro+',    'Legal review pending'],
+  ['Milestones', 'Joined: Q1 2022',     'Upgrades: 2',         'Support tickets: 4']
+];
+
+/* ══════════════════════════════════════════════════
+   DATA GENERATION
+══════════════════════════════════════════════════ */
+function rnd(lo, hi, d=2) { return +(lo + Math.random()*(hi-lo)).toFixed(d); }
+
+// Months 0-17 = actuals, 18-20 = forecast (null for now)
+const TABLE_ROWS = ACCOUNTS.map((acc, i) => {
+  const rt   = ROW_TYPES[i % 4];
+  const cat  = CATEGORIES[i % CATEGORIES.length];
+  const base = rnd(2, 9);
+  const vals = MONTHS.map((_, mi) => mi >= 18 ? null : rnd(base*0.7, base*1.3));
+  return { acc, rt, cat, vals };
+});
+
+/* ══════════════════════════════════════════════════
+   FORMATTING
+══════════════════════════════════════════════════ */
+function fmtVal(v) {
+  if (v === null) return '—';
+  return (v < 0 ? '−' : '') + '$' + Math.abs(v).toFixed(1) + 'M';
+}
+function valCls(v) {
+  if (v === null) return 'val-neu';
+  return v >= 4.5 ? 'val-pos' : v < 3 ? 'val-neg' : 'val-neu';
+}
+
+/* ══════════════════════════════════════════════════
+   FILTER STATE
+══════════════════════════════════════════════════ */
+// colIdx → Set<string> of allowed values, or absent = no filter
+const activeFilters = {};
+
+function getCellText(row, colIdx) {
+  if (colIdx === COL_DESC) return row.acc.name;
+  if (colIdx === COL_CAT)  return row.cat;
+  const mi = colIdx - 2;
+  return fmtVal(row.vals[mi]);
+}
+
+function getUniqueValues(colIdx) {
+  const set = new Set(TABLE_ROWS.map(r => getCellText(r, colIdx)));
+  return [...set].sort((a,b) => {
+    if (a==='—') return 1; if (b==='—') return -1;
+    return a.localeCompare(b, undefined, { numeric: true });
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   BUILD TABLE HEAD
+══════════════════════════════════════════════════ */
+function buildHead() {
+  const head = document.getElementById('tableHead');
+  head.innerHTML = '';
+  const tr = document.createElement('tr');
+
+  // Col 0: select-all checkbox
+  const thCb = document.createElement('th');
+  thCb.className = 'cb-cell';
+  thCb.innerHTML = `<div class="th-inner" style="justify-content:center;padding:9px 6px">
+    <input type="checkbox" id="selectAll" title="Select all" onchange="toggleSelectAll(this)">
+  </div>`;
+  tr.appendChild(thCb);
+
+  // Col 1: Description
+  appendTh(tr, 'Account / Description', COL_DESC, 'desc-cell');
+
+  // Cols 2-22: Months
+  MONTHS.forEach((m, mi) => appendTh(tr, m, mi + 2, 'month-cell'));
+
+  // Col 23: Category
+  appendTh(tr, 'Category', COL_CAT, 'cat-cell');
+
+  head.appendChild(tr);
+}
+
+function appendTh(tr, label, colIdx, cls) {
+  const th = document.createElement('th');
+  if (cls) th.className = cls;
+  const hasFilter = activeFilters[colIdx] && activeFilters[colIdx].size > 0;
+  th.innerHTML = `<div class="th-inner">
+    <span class="th-label">${label}</span>
+    <button class="filter-btn${hasFilter?' active':''}"
+      onclick="openFilter(event,${colIdx})" title="Filter column">▾</button>
+  </div>`;
+  tr.appendChild(th);
+}
+
+/* ══════════════════════════════════════════════════
+   BUILD TABLE BODY
+══════════════════════════════════════════════════ */
+function buildBody() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+
+  TABLE_ROWS.forEach((row, i) => {
+    const subId = 'sub-' + i;
+    const tr = document.createElement('tr');
+    tr.className = 'data-row ' + row.rt.cls;
+    tr.dataset.rowIdx = i;
+
+    // Col 0: checkbox
+    const tdCb = document.createElement('td');
+    tdCb.className = 'cb-cell';
+    tdCb.innerHTML = `<input type="checkbox" class="row-cb" onchange="updateSelectAll()">`;
+    tr.appendChild(tdCb);
+
+    // Col 1: description
+    const tdDesc = document.createElement('td');
+    tdDesc.className = 'desc-cell';
+    tdDesc.innerHTML = `<div style="display:flex;align-items:center;gap:8px">
+      <button class="expand-btn" onclick="toggleSub('${subId}',this)">
+        <span class="expand-arrow">›</span>
+      </button>
+      <div>
+        <div class="desc-name">${row.acc.name}</div>
+        <div class="desc-sub">${row.acc.sub}</div>
+      </div>
+    </div>`;
+    tr.appendChild(tdDesc);
+
+    // Cols 2-22: months
+    row.vals.forEach(v => {
+      const td = document.createElement('td');
+      td.className = 'month-cell ' + valCls(v);
+      td.textContent = fmtVal(v);
+      tr.appendChild(td);
+    });
+
+    // Col 23: category
+    const tdCat = document.createElement('td');
+    tdCat.className = 'cat-cell';
+    tdCat.innerHTML = `<span class="chip ${CAT_CHIP[row.cat]}">${row.cat}</span>`;
+    tr.appendChild(tdCat);
+
+    tbody.appendChild(tr);
+
+    // Sub rows (3 per parent)
+    SUB_DETAILS.forEach((detail, di) => {
+      const sub = document.createElement('tr');
+      sub.className = 'sub-row';
+      sub.id = subId + '-' + di;
+      // 24 total cols: 1cb + 1desc + 21months + 1cat
+      sub.innerHTML = `<td></td>
+        <td style="color:var(--text3);font-weight:500;font-size:11px">${detail[0]}</td>
+        <td colspan="22" style="color:var(--text2)">${detail.slice(1).join(' · ')}</td>`;
+      tbody.appendChild(sub);
+    });
+  });
+
+  applyFilters();
+}
+
+function buildTable() {
+  buildHead();
+  buildBody();
+}
+
+/* ══════════════════════════════════════════════════
+   ROW EXPAND
+══════════════════════════════════════════════════ */
+function toggleSub(subId, btn) {
+  const isOpen = btn.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  for (let di = 0; di < 3; di++) {
+    const sub = document.getElementById(subId + '-' + di);
+    if (sub) sub.classList.toggle('visible', !isOpen);
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   CHECKBOX LOGIC
+══════════════════════════════════════════════════ */
+function toggleSelectAll(masterCb) {
+  document.querySelectorAll('.row-cb').forEach(cb => {
+    if (!cb.closest('tr').classList.contains('filtered-out'))
+      cb.checked = masterCb.checked;
+  });
+}
+
+function updateSelectAll() {
+  const vis   = [...document.querySelectorAll('.row-cb')]
+                  .filter(cb => !cb.closest('tr').classList.contains('filtered-out'));
+  const chked = vis.filter(cb => cb.checked);
+  const sa    = document.getElementById('selectAll');
+  if (!sa) return;
+  sa.checked       = chked.length === vis.length && vis.length > 0;
+  sa.indeterminate = chked.length > 0 && chked.length < vis.length;
+}
+
+/* ══════════════════════════════════════════════════
+   APPLY FILTERS TO ROWS
+══════════════════════════════════════════════════ */
+function applyFilters() {
+  const dataRows = document.querySelectorAll('tr.data-row');
+  let visible = 0;
+
+  dataRows.forEach(tr => {
+    const row  = TABLE_ROWS[parseInt(tr.dataset.rowIdx)];
+    let show   = true;
+
+    for (const [colStr, allowed] of Object.entries(activeFilters)) {
+      if (!allowed || allowed.size === 0) continue;
+      const val = getCellText(row, parseInt(colStr));
+      if (!allowed.has(val)) { show = false; break; }
+    }
+
+    tr.classList.toggle('filtered-out', !show);
+    if (show) visible++;
+
+    // Collapse sub rows when parent hidden
+    if (!show) {
+      const subId = 'sub-' + tr.dataset.rowIdx;
+      for (let di = 0; di < 3; di++) {
+        const sub = document.getElementById(subId + '-' + di);
+        if (sub) sub.classList.remove('visible');
+      }
+    }
+  });
+
+  document.getElementById('rowCountBadge').textContent = visible + ' rows';
+  const hasAny = Object.values(activeFilters).some(s => s && s.size > 0);
+  document.getElementById('clearFiltersBtn').classList.toggle('visible', hasAny);
+  updateSelectAll();
+}
+
+function clearAllFilters() {
+  Object.keys(activeFilters).forEach(k => delete activeFilters[k]);
+  buildHead();
+  applyFilters();
+}
+
+/* ══════════════════════════════════════════════════
+   FILTER DROPDOWN
+══════════════════════════════════════════════════ */
+let currentColIdx    = null;
+let pendingSelection = new Set();
+
+function openFilter(e, colIdx) {
+  e.stopPropagation();
+  const dd = document.getElementById('filterDropdown');
+
+  if (currentColIdx === colIdx && dd.classList.contains('open')) {
+    closeDropdown(); return;
+  }
+
+  currentColIdx = colIdx;
+  const allVals = getUniqueValues(colIdx);
+
+  // If no existing filter, default = all selected
+  pendingSelection = activeFilters[colIdx]
+    ? new Set(activeFilters[colIdx])
+    : new Set(allVals);
+
+  document.getElementById('fdSearch').value = '';
+  renderFdList(allVals);
+
+  // Position dropdown near the filter button
+  const rect = e.currentTarget.getBoundingClientRect();
+  const ddW  = 224;
+  let left   = rect.left;
+  if (left + ddW > window.innerWidth - 8) left = window.innerWidth - ddW - 8;
+  if (left < 4) left = 4;
+  let top = rect.bottom + 4;
+  if (top + 320 > window.innerHeight) top = rect.top - 320;
+
+  dd.style.top  = top + 'px';
+  dd.style.left = left + 'px';
+  dd.classList.add('open');
+}
+
+function renderFdList(vals) {
+  const list = document.getElementById('fdList');
+  list.innerHTML = '';
+  vals.forEach(val => {
+    const lbl = document.createElement('label');
+    lbl.className = 'fd-item';
+    const cb = document.createElement('input');
+    cb.type    = 'checkbox';
+    cb.checked = pendingSelection.has(val);
+    cb.addEventListener('change', () => {
+      cb.checked ? pendingSelection.add(val) : pendingSelection.delete(val);
+    });
+    const sp = document.createElement('span');
+    sp.className   = 'fd-item-label';
+    sp.textContent = val;
+    lbl.appendChild(cb);
+    lbl.appendChild(sp);
+    list.appendChild(lbl);
+  });
+}
+
+function filterDropdownSearch() {
+  const q = document.getElementById('fdSearch').value.toLowerCase();
+  renderFdList(getUniqueValues(currentColIdx).filter(v => v.toLowerCase().includes(q)));
+}
+
+function fdSelectAll() {
+  const q = document.getElementById('fdSearch').value.toLowerCase();
+  getUniqueValues(currentColIdx).filter(v => v.toLowerCase().includes(q))
+    .forEach(v => pendingSelection.add(v));
+  filterDropdownSearch();
+}
+
+function fdClearAll() {
+  const q = document.getElementById('fdSearch').value.toLowerCase();
+  getUniqueValues(currentColIdx).filter(v => v.toLowerCase().includes(q))
+    .forEach(v => pendingSelection.delete(v));
+  filterDropdownSearch();
+}
+
+function applyDropdownFilter() {
+  const allVals = getUniqueValues(currentColIdx);
+  if (pendingSelection.size >= allVals.length) {
+    delete activeFilters[currentColIdx];
+  } else {
+    activeFilters[currentColIdx] = new Set(pendingSelection);
+  }
+  buildHead();   // refresh header to show active state
+  applyFilters();
+  closeDropdown();
+}
+
+function closeDropdown() {
+  document.getElementById('filterDropdown').classList.remove('open');
+  currentColIdx = null;
+}
+
+// Close on outside click
+document.addEventListener('click', e => {
+  const dd = document.getElementById('filterDropdown');
+  if (dd.classList.contains('open') && !dd.contains(e.target)) closeDropdown();
+});
+
+/* ══════════════════════════════════════════════════
+   CHART
+══════════════════════════════════════════════════ */
+const CHART_LABELS  = MONTHS;
+const CHART_ACTUAL  = [4.1,4.6,5.0,5.4,4.9,5.8,6.1,5.7,6.4,6.9,7.2,7.8,8.1,8.4,null,null,null,null,null,null,null];
+const CHART_TARGET  = [4.5,4.8,5.2,5.5,5.5,6.0,6.2,6.0,6.5,7.0,7.0,7.5,8.0,8.3,8.6,8.8,9.0,9.2,9.3,9.4,9.6];
+const CHART_FCAST   = [null,null,null,null,null,null,null,null,null,null,null,null,null,8.4,8.7,9.0,9.1,9.2,9.4,9.3,9.7];
+
+let chartInstance = null;
+
+function buildChart(act, tgt, fcast) {
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(ctx, {
+    data: {
+      labels: CHART_LABELS,
+      datasets: [
+        { type:'bar',  label:'Target',   data:tgt,   backgroundColor:'rgba(94,170,247,0.12)', borderColor:'rgba(94,170,247,0.28)', borderWidth:1, borderRadius:2, yAxisID:'y' },
+        { type:'line', label:'Actual',   data:act,   borderColor:'#3d8ef0', backgroundColor:'rgba(61,142,240,0.07)', pointBackgroundColor:'#3d8ef0', pointRadius:3, pointHoverRadius:5, borderWidth:2, tension:0.35, fill:true, yAxisID:'y', spanGaps:false },
+        { type:'line', label:'Forecast', data:fcast, borderColor:'#1d9e75', borderDash:[5,4], pointBackgroundColor:'#1d9e75', pointRadius:3, borderWidth:1.5, tension:0.35, yAxisID:'y', spanGaps:false }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false} },
+      scales:{
+        x:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#8a9ab5', font:{size:9}, maxRotation:50, autoSkip:false} },
+        y:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#8a9ab5', font:{size:10}, callback:v=>'$'+v.toFixed(1)+'M'} }
+      }
+    }
+  });
+}
+
+function jitter(v, p) { return v != null ? +(v*(1+(Math.random()-0.5)*p*2)).toFixed(2) : null; }
+function updateChart() {
+  buildChart(
+    CHART_ACTUAL.map(v => jitter(v, 0.08)),
+    CHART_TARGET.map(v => jitter(v, 0.04)),
+    CHART_FCAST.map(v  => jitter(v, 0.06))
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════ */
+buildChart(CHART_ACTUAL, CHART_TARGET, CHART_FCAST);
+buildTable();
+</script>
+</body>
+</html>

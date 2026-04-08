@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Datavance — Portfolio Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Light mode (default) ── */
+:root{
+  --bg:        #f4f5f7;
+  --surface1:  #ffffff;
+  --surface2:  #f0f2f5;
+  --surface3:  #e6e9ef;
+  --accent:    #1d6fd4;   /* 5.2:1 on white */
+  --accent2:   #1558b0;
+  --teal:      #0b6b4a;   /* 5.1:1 on white */
+  --amber:     #7a4e08;   /* 5.4:1 on white */
+  --purple:    #4a44a8;   /* 5.0:1 on white */
+  --border:    rgba(0,0,0,0.09);
+  --text1:     #111827;   /* ~18:1 on white */
+  --text2:     #374151;   /* ~10:1 on white — was too light before */
+  --text3:     #6b7280;   /* 4.6:1 on white — AA pass for normal text */
+  --row-a:     rgba(29,111,212,0.05);
+  --row-b:     rgba(11,107,74,0.05);
+  --row-c:     rgba(122,78,8,0.05);
+  --row-d:     rgba(74,68,168,0.05);
+  --hover:     rgba(0,0,0,0.04);
+  --dg-bg:     rgba(160,30,30,0.07);
+  --nav-top:   #ffffff;
+  --nav-cat:   #f0f2f5;
+  --nav-sub:   #ffffff;
+  --shadow:    0 1px 3px rgba(0,0,0,0.08);
+  /* WCAG-safe value colors */
+  --val-pos:   #156636;   /* 5.7:1 on white */
+  --val-neg:   #991b1b;   /* 6.2:1 on white */
+  --val-neu:   #374151;   /* 10:1 on white */
+  --val-fut:   #6b7280;   /* 4.6:1 on white */
+  --val-dg:    #8b1c1c;   /* 7.1:1 on white */
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"]{
+  --bg:        #0f1b2d;
+  --surface1:  #162336;
+  --surface2:  #1a2a3e;
+  --surface3:  #1d2f45;
+  --accent:    #5eaaf7;   /* 5.1:1 on #162336 */
+  --accent2:   #7dc0ff;
+  --teal:      #34c992;   /* 5.3:1 on dark */
+  --amber:     #d4953a;   /* 5.0:1 on dark */
+  --purple:    #a29cf5;   /* 5.2:1 on dark */
+  --border:    rgba(255,255,255,0.10);
+  --text1:     #f0f4fa;   /* ~17:1 on #162336 */
+  --text2:     #b0bdd0;   /* 6.8:1 on #162336 */
+  --text3:     #8a9ab5;   /* 4.7:1 on #162336 */
+  --row-a:     rgba(94,170,247,0.07);
+  --row-b:     rgba(52,201,146,0.07);
+  --row-c:     rgba(212,149,58,0.07);
+  --row-d:     rgba(162,156,245,0.07);
+  --hover:     rgba(255,255,255,0.05);
+  --dg-bg:     rgba(139,28,28,0.18);
+  --nav-top:   #162336;
+  --nav-cat:   #1a2a3e;
+  --nav-sub:   #162336;
+  --shadow:    none;
+  --val-pos:   #6ee7a0;   /* 6.2:1 on #162336 */
+  --val-neg:   #f87171;   /* 5.4:1 on #162336 */
+  --val-neu:   #b0bdd0;   /* 6.8:1 on #162336 */
+  --val-fut:   #8a9ab5;   /* 4.7:1 on #162336 */
+  --val-dg:    #f4a4a4;   /* 6.0:1 on #162336 */
+}
+
+html,body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);font-size:13px;transition:background .2s,color .2s}
+
+/* skip link */
+.skip-link{
+  position:absolute;left:-9999px;top:4px;z-index:9999;
+  background:var(--accent);color:#fff;padding:6px 14px;border-radius:6px;
+  font-size:13px;font-weight:500;text-decoration:none;
+}
+.skip-link:focus{left:8px}
+
+/* ── focus ring ── */
+:focus-visible{
+  outline:2px solid var(--accent2);
+  outline-offset:2px;
+  border-radius:4px;
+}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--accent2);
+  outline-offset:2px;
+}
+
+/* ══════════════════════════════════════════
+   NAV — 3-level: top bar + category strip + pages strip
+══════════════════════════════════════════ */
+
+/* Top bar: logo + utility links */
+.top-bar{
+  background:var(--nav-top);border-bottom:1px solid var(--border);
+  padding:0 16px;display:flex;align-items:center;gap:20px;height:46px;
+  position:sticky;top:0;z-index:300;box-shadow:var(--shadow);
+}
+.logo{
+  font-family:'Fraunces',serif;font-size:16px;font-weight:500;
+  letter-spacing:-0.3px;color:var(--text1);display:flex;
+  align-items:center;gap:7px;text-decoration:none;flex-shrink:0;
+}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.top-bar-util{display:flex;gap:4px;margin-left:auto;align-items:center}
+.util-link{
+  font-size:11px;color:var(--text3);text-decoration:none;
+  padding:4px 10px;border-radius:5px;transition:all .15s;
+}
+.util-link:hover{background:var(--hover);color:var(--text2)}
+
+/* Category strip (level 1) */
+.cat-bar{
+  background:var(--nav-cat);border-bottom:1px solid var(--border);
+  padding:0 16px;display:flex;align-items:center;
+  position:sticky;top:46px;z-index:299;overflow-x:auto;
+  min-height:38px;
+}
+.cat-bar::-webkit-scrollbar{display:none}
+.cat-tabs{display:flex;align-items:center;gap:2px;flex-shrink:0}
+.cat-tab{
+  font-size:12px;font-weight:500;color:var(--text2);
+  padding:0 14px;height:38px;display:flex;align-items:center;
+  border:none;background:transparent;cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  transition:color .15s,border-color .15s;font-family:'DM Sans',sans-serif;
+}
+.cat-tab:hover{color:var(--text1)}
+.cat-tab.active{color:var(--text1);border-bottom-color:var(--accent)}
+
+/* Subcategory strip — same bar, below, only when Analytics active */
+.subcat-bar{
+  background:var(--nav-sub);border-bottom:1px solid var(--border);
+  padding:0 16px;display:flex;align-items:center;
+  position:sticky;top:84px;z-index:298;overflow-x:auto;
+  min-height:34px;
+}
+.subcat-bar::-webkit-scrollbar{display:none}
+.subcat-bar.hidden{display:none}
+.subcat-tabs{display:flex;align-items:center;gap:1px;flex-shrink:0}
+.subcat-tab{
+  font-size:11px;color:var(--text3);padding:0 12px;height:34px;
+  display:flex;align-items:center;border:none;background:transparent;
+  cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;
+  transition:color .15s,border-color .15s;font-family:'DM Sans',sans-serif;
+}
+.subcat-tab:hover{color:var(--text2)}
+.subcat-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* Page links live on the RIGHT of whichever second-row bar is active */
+.page-links-sep{
+  width:1px;height:18px;background:var(--border);
+  flex-shrink:0;margin:0 10px;
+}
+.page-links{display:flex;align-items:center;gap:1px;overflow-x:auto;min-width:0}
+.page-links::-webkit-scrollbar{display:none}
+.page-link{
+  font-size:11px;color:var(--text3);
+  padding:0 10px;height:28px;display:flex;align-items:center;
+  text-decoration:none;white-space:nowrap;border-radius:4px;
+  transition:background .12s,color .12s;
+}
+.page-link:hover{background:var(--hover);color:var(--text2)}
+.page-link.active{background:rgba(29,111,212,0.10);color:var(--accent);font-weight:600}
+[data-theme="dark"] .page-link.active{background:rgba(94,170,247,0.14);color:var(--accent2)}
+
+/* ── Main ── */
+main{padding:18px 16px 40px}
+
+.page-title{
+  font-family:'Fraunces',serif;font-size:22px;font-weight:300;
+  color:var(--text1);margin-bottom:3px;letter-spacing:-0.3px;
+}
+.page-sub{font-size:12px;color:var(--text2);margin-bottom:18px}
+
+/* ── Controls row ── */
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:flex-end}
+.ctrl-group{display:flex;flex-direction:column;gap:4px}
+.ctrl-label{font-size:10px;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;font-weight:500}
+select{
+  background:var(--surface1);border:1px solid var(--border);color:var(--text1);
+  font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 26px 6px 10px;
+  border-radius:7px;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239ca3af' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center;
+  cursor:pointer;min-width:120px;transition:border-color .15s;
+}
+select:hover{border-color:var(--accent)}
+select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+
+.btn-view-toggle{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface2);border:1px solid var(--border);color:var(--text2);
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  padding:6px 14px;border-radius:7px;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.btn-view-toggle:hover{border-color:var(--accent);color:var(--text1)}
+.btn-view-toggle[aria-pressed="true"]{
+  background:rgba(43,125,233,0.1);border-color:var(--accent);color:var(--accent);
+}
+[data-theme="dark"] .btn-view-toggle[aria-pressed="true"]{
+  background:rgba(61,142,240,0.15);color:var(--accent2);
+}
+.btn-view-icon{font-size:13px;line-height:1;opacity:.7}
+
+/* ── Chart card ── */
+.chart-card{
+  background:var(--surface1);border:1px solid var(--border);
+  border-radius:10px;padding:16px 18px 14px;margin-bottom:18px;box-shadow:var(--shadow);
+}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.chart-title{font-size:13px;font-weight:500;color:var(--text1)}
+.legend{display:flex;gap:14px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.chart-wrap{position:relative;height:200px}
+
+/* ── Table card ── */
+.table-card{
+  background:var(--surface1);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);
+}
+.table-header-bar{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.table-title{font-size:13px;font-weight:500;color:var(--text1)}
+.tbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.badge{font-size:10px;padding:2px 9px;border-radius:20px;font-weight:500}
+.badge-blue{background:rgba(43,125,233,0.1);color:var(--accent)}
+[data-theme="dark"] .badge-blue{background:rgba(61,142,240,0.15);color:var(--accent2)}
+
+.tbar-btn{
+  font-size:11px;padding:4px 10px;border-radius:6px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .15s;white-space:nowrap;
+}
+.tbar-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tbar-btn.hidden{display:none}
+
+/* ── Table ── */
+table{
+  width:100%;border-collapse:collapse;font-size:11px;
+  table-layout:fixed; /* crucial for column width control */
+}
+
+/* Column widths */
+col.col-cb    {width:28px}
+col.col-desc  {width:160px}
+col.col-month {width:52px}
+col.col-cat   {width:64px}
+
+thead th{
+  background:var(--surface2);color:var(--text1);
+  font-weight:700;font-size:12px;letter-spacing:0.2px;text-transform:uppercase;
+  padding:0;text-align:left;
+  border-bottom:2px solid var(--border);
+  border-right:1px solid var(--border);
+  white-space:nowrap;user-select:none;position:sticky;top:0;z-index:5;
+}
+thead th:last-child{border-right:none}
+
+.th-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 6px;gap:2px;
+}
+.th-inner.right{justify-content:flex-end}
+.th-label{min-width:0;overflow:hidden;text-overflow:ellipsis}
+
+.filter-btn{
+  width:16px;height:16px;flex-shrink:0;
+  border:1px solid transparent;border-radius:3px;
+  background:transparent;color:var(--text3);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .12s;padding:0;font-size:9px;line-height:1;
+}
+.filter-btn:hover{background:var(--hover);color:var(--text2);border-color:var(--border)}
+.filter-btn.active{background:rgba(43,125,233,0.15);color:var(--accent);border-color:var(--accent)}
+[data-theme="dark"] .filter-btn.active{background:rgba(61,142,240,0.2);color:var(--accent2)}
+
+td{
+  padding:5px 5px;color:var(--text1);
+  border-bottom:1px solid var(--border);
+  border-right:1px solid var(--border);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  vertical-align:middle;
+}
+td:last-child{border-right:none}
+tbody tr:last-child td{border-bottom:none}
+
+/* Row type colors */
+.row-a{background:var(--row-a)}
+.row-b{background:var(--row-b)}
+.row-c{background:var(--row-c)}
+.row-d{background:var(--row-d)}
+.row-a .desc-cell{border-left:2px solid var(--accent)}
+.row-b .desc-cell{border-left:2px solid var(--teal)}
+.row-c .desc-cell{border-left:2px solid var(--amber)}
+.row-d .desc-cell{border-left:2px solid var(--purple)}
+
+tr.data-row:hover>td,.sub-row:hover>td{background:var(--hover)}
+tr.filtered-out,.sub-row.filtered-out{display:none}
+tr.sub-hidden{display:none}
+
+/* ── Cells ── */
+.cb-cell{text-align:center;width:28px;overflow:visible}
+input[type="checkbox"]{
+  width:13px;height:13px;cursor:pointer;accent-color:var(--accent);
+  display:block;margin:0 auto;
+}
+
+.desc-cell{overflow:hidden}
+.desc-inner{display:flex;align-items:center;gap:5px}
+.desc-text{}
+.desc-name{font-weight:500;font-size:11px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.desc-sub{font-size:10px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* sub row indentation levels */
+.desc-l2{padding-left:22px}
+.desc-l3{padding-left:40px}
+
+.month-cell{text-align:right;font-variant-numeric:tabular-nums;font-size:11px}
+th.month-cell .th-inner{justify-content:flex-end}
+th.month-cell .filter-btn{order:-1}
+
+/* value states — WCAG AA compliant in both themes via CSS variables */
+.val-pos{color:var(--val-pos)}
+.val-neg{color:var(--val-neg)}
+.val-neu{color:var(--val-neu)}
+.val-fut{color:var(--val-fut)}
+[data-theme="dark"] .val-pos{color:var(--val-pos)}
+[data-theme="dark"] .val-neg{color:var(--val-neg)}
+
+/* downgraded cells (2025 cat, or Splice Q1-2025) */
+.val-dg{
+  color:var(--val-dg);font-style:italic;
+  background:var(--dg-bg);
+}
+
+.cat-cell{text-align:left}
+.chip{
+  display:inline-block;padding:1px 7px;
+  border-radius:3px;font-size:10px;font-weight:500;white-space:nowrap;
+}
+.chip-2025  {background:rgba(153,27,27,0.10); color:#7f1d1d}  /* 7.5:1 on white */
+.chip-2026  {background:rgba(29,111,212,0.10); color:#1e3a8a}  /* 9.1:1 on white */
+.chip-splice{background:rgba(74,68,168,0.10);  color:#312e81}  /* 9.4:1 on white */
+[data-theme="dark"] .chip-2025  {background:rgba(139,28,28,0.25);  color:#fca5a5}  /* 7.2:1 on surface */
+[data-theme="dark"] .chip-2026  {background:rgba(94,170,247,0.18); color:#93c5fd}  /* 6.5:1 on surface */
+[data-theme="dark"] .chip-splice{background:rgba(162,156,245,0.18);color:#c4b5fd}  /* 6.8:1 on surface */
+
+/* ── Expand button ── */
+.expand-btn{
+  width:18px;height:18px;flex-shrink:0;border-radius:4px;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--text3);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;transition:all .15s;line-height:1;
+}
+.expand-btn:hover{background:rgba(43,125,233,0.1);color:var(--accent);border-color:var(--accent)}
+.expand-btn[aria-expanded="true"]{background:rgba(43,125,233,0.1);color:var(--accent);border-color:var(--accent)}
+[data-theme="dark"] .expand-btn:hover{background:rgba(61,142,240,0.2);color:var(--accent2)}
+[data-theme="dark"] .expand-btn[aria-expanded="true"]{background:rgba(61,142,240,0.18);color:var(--accent2)}
+.expand-btn svg{transition:transform .2s;display:block;width:8px;height:8px}
+.expand-btn[aria-expanded="true"] svg{transform:rotate(90deg)}
+.expand-spacer{width:18px;height:18px;flex-shrink:0;display:inline-block}
+
+/* ── Theme toggle button ── */
+.theme-toggle{
+  width:32px;height:32px;border-radius:7px;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--text2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all .15s;flex-shrink:0;
+  margin-left:4px;
+}
+.theme-toggle:hover{background:var(--hover);color:var(--text1);border-color:var(--accent)}
+
+/* ── Filter Dropdown ── */
+.filter-dropdown{
+  position:fixed;background:var(--surface1);
+  border:1px solid var(--border);border-radius:9px;
+  width:210px;z-index:9999;
+  box-shadow:0 6px 24px rgba(0,0,0,0.15);
+  display:none;
+}
+[data-theme="dark"] .filter-dropdown{box-shadow:0 8px 28px rgba(0,0,0,0.55)}
+.filter-dropdown.open{display:block}
+.fd-search-wrap{padding:9px 9px 6px;border-bottom:1px solid var(--border)}
+.fd-search{
+  width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:5px;
+  color:var(--text1);font-family:'DM Sans',sans-serif;font-size:11px;padding:5px 9px;outline:none;
+}
+.fd-search:focus{border-color:var(--accent);outline:2px solid var(--accent);outline-offset:1px}
+.fd-search::placeholder{color:var(--text3)}
+.fd-actions{display:flex;gap:4px;padding:5px 9px;border-bottom:1px solid var(--border)}
+.fd-act-btn{
+  font-size:10px;color:var(--accent);background:none;border:none;
+  cursor:pointer;font-family:'DM Sans',sans-serif;padding:2px 4px;border-radius:3px;transition:background .12s;
+}
+.fd-act-btn:hover{background:rgba(43,125,233,0.1)}
+.fd-list{max-height:190px;overflow-y:auto;padding:3px 0}
+.fd-list:focus{outline:none}
+.fd-item{
+  display:flex;align-items:center;gap:7px;
+  padding:5px 11px;cursor:pointer;transition:background .1s;
+  font-size:11px;color:var(--text1);
+}
+.fd-item:hover{background:var(--hover)}
+.fd-item input[type="checkbox"]{width:12px;height:12px;flex-shrink:0;margin:0}
+.fd-item-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd-footer{padding:7px 9px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:5px}
+.fd-btn{
+  font-size:11px;padding:4px 12px;border-radius:5px;
+  font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .12s;
+}
+.fd-btn-cancel{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.fd-btn-cancel:hover{border-color:var(--text2);color:var(--text1)}
+.fd-btn-apply{background:var(--accent);border:1px solid var(--accent);color:#fff}
+.fd-btn-apply:hover{opacity:.85}
+
+/* ── Downgrade legend ── */
+.dg-legend{
+  display:flex;gap:16px;flex-wrap:wrap;
+  margin-top:10px;padding:8px 12px;
+  background:var(--surface2);border-radius:7px;
+  font-size:10px;color:var(--text2);align-items:center;
+}
+.dg-legend-item{display:flex;align-items:center;gap:5px}
+.dg-swatch{
+  width:28px;height:13px;border-radius:3px;
+  background:var(--dg-bg);border:1px solid rgba(127,29,29,0.2);
+  font-size:9px;color:var(--val-dg);display:flex;align-items:center;justify-content:center;
+  font-style:italic;font-family:'DM Sans',sans-serif;
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- Level 1: Logo + utility -->
+<div class="top-bar" role="banner">
+  <a class="logo" href="#" aria-label="Datavance home">
+    <div class="logo-dot" aria-hidden="true"></div>Datavance
+  </a>
+  <nav class="top-bar-util" aria-label="Utility navigation">
+    <a class="util-link" href="#">Help</a>
+    <a class="util-link" href="#">Settings</a>
+    <a class="util-link" href="#">Profile</a>
+    <button class="theme-toggle" id="themeToggle"
+      aria-label="Switch to dark mode"
+      onclick="toggleTheme()"
+      title="Toggle light/dark mode">☀</button>
+  </nav>
+</div>
+
+<!-- Level 1: Main categories + pages (when no subcats) -->
+<nav class="cat-bar" aria-label="Main categories" id="catBar">
+  <!-- rendered by JS -->
+</nav>
+
+<!-- Level 1b: Subcategories + pages (only visible when Analytics is active) -->
+<nav class="subcat-bar hidden" aria-label="Subcategories and pages" id="subcatBar">
+  <!-- rendered by JS -->
+</nav>
+
+<main id="main-content" tabindex="-1">
+  <p class="page-title" id="nav-page-title">Dashboard</p>
+  <p class="page-sub" id="nav-page-sub">Overview › Dashboard</p>
+
+  <section aria-label="Data filters">
+    <div class="controls">
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sel-state">State</label>
+        <select id="sel-state" onchange="applyDropdownSelects()">
+          <option value="">All States</option>
+          <option>California</option><option>Texas</option><option>New York</option>
+          <option>Florida</option><option>Illinois</option><option>Washington</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sel-metro">Metro Area</label>
+        <select id="sel-metro" onchange="applyDropdownSelects()">
+          <option value="">All Metros</option>
+          <option>Los Angeles</option><option>New York City</option><option>Chicago</option>
+          <option>Houston</option><option>Seattle</option><option>Miami</option>
+          <option>San Francisco</option><option>Dallas</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sel-industry">Industry</label>
+        <select id="sel-industry" onchange="applyDropdownSelects()">
+          <option value="">All Industries</option>
+          <option>Technology</option><option>Healthcare</option><option>Finance</option>
+          <option>Retail</option><option>Manufacturing</option><option>Energy</option>
+        </select>
+      </div>
+      <div class="ctrl-group" style="justify-content:flex-end">
+        <span class="ctrl-label" id="view-mode-label">View</span>
+        <button class="btn-view-toggle" id="viewToggleBtn"
+          aria-label="Currently showing Actuals. Click to switch to Month-over-Month change."
+          aria-pressed="false"
+          onclick="toggleViewMode()">
+          <span class="btn-view-icon" aria-hidden="true">≡</span>
+          Actuals
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Revenue chart">
+    <div class="chart-card">
+      <div class="chart-header">
+        <span class="chart-title" id="chart-title">Revenue — Jan 2025 to Sep 2026</span>
+        <div class="legend" aria-hidden="true">
+          <div class="legend-item"><div class="legend-dot" style="background:#3d8ef0"></div>Sum of selected rows</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="mainChart" role="img" aria-labelledby="chart-title"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Detailed records table">
+    <div class="table-card">
+      <div class="table-header-bar">
+        <span class="table-title" id="table-desc">Detailed Records</span>
+        <div class="tbar-right">
+          <button class="tbar-btn" id="expandAllBtn" onclick="expandAll()" aria-label="Expand all rows">Expand all</button>
+          <button class="tbar-btn" id="collapseAllBtn" onclick="collapseAll()" aria-label="Collapse all rows">Collapse all</button>
+          <button class="tbar-btn hidden" id="clearFiltersBtn" onclick="clearAllFilters()">✕ Clear filters</button>
+          <span class="badge badge-blue" id="rowCountBadge" aria-live="polite" aria-atomic="true">15 rows</span>
+        </div>
+      </div>
+
+      <!-- downgrade legend -->
+      <div class="dg-legend" role="note" aria-label="Value highlighting key">
+        <strong style="color:var(--text2);font-size:10px">Highlight key:</strong>
+        <div class="dg-legend-item">
+          <div class="dg-swatch" aria-hidden="true"><em>1.2</em></div>
+          <span>2025 category — all months downgraded</span>
+        </div>
+        <div class="dg-legend-item">
+          <div class="dg-swatch" aria-hidden="true"><em>1.2</em></div>
+          <span>Splice category — Q1 2025 (Jan–Mar) downgraded</span>
+        </div>
+      </div>
+
+      <div role="region" aria-label="Data table">
+        <table aria-labelledby="table-desc" aria-describedby="rowCountBadge">
+          <colgroup>
+            <col class="col-cb"/>
+            <col class="col-desc"/>
+            <col class="col-month" span="21"/>
+            <col class="col-cat"/>
+          </colgroup>
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Filter dropdown (shared, repositioned per column) -->
+<div class="filter-dropdown" id="filterDropdown" role="dialog" aria-modal="true" aria-label="Column filter">
+  <div class="fd-search-wrap">
+    <label for="fdSearch" class="ctrl-label" style="display:block;margin-bottom:4px">Search values</label>
+    <input type="text" class="fd-search" id="fdSearch" placeholder="Type to search…" oninput="filterDropdownSearch()" autocomplete="off"/>
+  </div>
+  <div class="fd-actions">
+    <button class="fd-act-btn" onclick="fdSelectAll()">Select all</button>
+    <button class="fd-act-btn" onclick="fdClearAll()">Clear all</button>
+  </div>
+  <div class="fd-list" id="fdList" role="group" aria-label="Filter options"></div>
+  <div class="fd-footer">
+    <button class="fd-btn fd-btn-cancel" onclick="closeDropdown()">Cancel</button>
+    <button class="fd-btn fd-btn-apply" onclick="applyDropdownFilter()">Apply</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ═══════════════════════════════════════════
+   CONSTANTS & DATA
+═══════════════════════════════════════════ */
+const MONTHS = [
+  'Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25',
+  'Aug 25','Sep 25','Oct 25','Nov 25','Dec 25',
+  'Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26',
+  'Jul 26','Aug 26','Sep 26'
+]; // indices 0-20
+
+// Which month indices are "2025" (0-11) and which are Q1-2025 (0-2)
+const IDX_2025     = new Set([0,1,2,3,4,5,6,7,8,9,10,11]);
+const IDX_Q1_2025  = new Set([0,1,2]);
+// indices 18-20 are forecast (future, shown as —)
+const IDX_FUTURE   = new Set([18,19,20]);
+
+const COL_CB   = 0;
+const COL_DESC = 1;
+const COL_CAT  = 23; // after 21 month cols (2..22)
+
+const CATEGORIES = ['2025','2026','Splice'];
+const CAT_CHIP   = {'2025':'chip-2025','2026':'chip-2026','Splice':'chip-splice'};
+
+const ROW_TYPES = [
+  {cls:'row-a'},{cls:'row-b'},{cls:'row-c'},{cls:'row-d'}
+];
+
+const ACCOUNTS = [
+  {name:'Apex Corp',    sub:'California · Technology',  state:'California',  metro:'Los Angeles',   industry:'Technology'},
+  {name:'Brightfield',  sub:'New York · Finance',        state:'New York',     metro:'New York City', industry:'Finance'},
+  {name:'Crestline',    sub:'Texas · Energy',            state:'Texas',        metro:'Houston',       industry:'Energy'},
+  {name:'Duskwood',     sub:'Florida · Healthcare',      state:'Florida',      metro:'Miami',         industry:'Healthcare'},
+  {name:'Everhill',     sub:'Washington · Technology',   state:'Washington',   metro:'Seattle',       industry:'Technology'},
+  {name:'Fable Inc',    sub:'Illinois · Retail',         state:'Illinois',     metro:'Chicago',       industry:'Retail'},
+  {name:'Greystone',    sub:'California · Finance',      state:'California',   metro:'San Francisco', industry:'Finance'},
+  {name:'Holloway',     sub:'Texas · Manufacturing',     state:'Texas',        metro:'Dallas',        industry:'Manufacturing'},
+  {name:'Iris Labs',    sub:'New York · Healthcare',     state:'New York',     metro:'New York City', industry:'Healthcare'},
+  {name:'Jetform',      sub:'California · Technology',  state:'California',   metro:'Los Angeles',   industry:'Technology'},
+  {name:'Kova Systems', sub:'Washington · Energy',      state:'Washington',   metro:'Seattle',       industry:'Energy'},
+  {name:'Luminary',     sub:'Illinois · Finance',        state:'Illinois',     metro:'Chicago',       industry:'Finance'},
+  {name:'Meriter',      sub:'Florida · Retail',          state:'Florida',      metro:'Miami',         industry:'Retail'},
+  {name:'Novella',      sub:'Texas · Technology',        state:'Texas',        metro:'Houston',       industry:'Technology'},
+  {name:'Orbit Co',     sub:'California · Manufacturing',state:'California',  metro:'Los Angeles',   industry:'Manufacturing'}
+];
+
+// Sub-row label sets — each parent gets 3 child rows
+const SUB_LABELS = ['Budget','Actual spend','Variance'];
+
+function rnd(lo,hi,d=1){return +(lo+Math.random()*(hi-lo)).toFixed(d)}
+
+// Build TABLE_ROWS: each has parent vals + 3 child rows with their own vals
+// Deterministic expandability: ~60% of parents expandable, ~50% of children expandable
+// Use index-based pattern so it's stable (not random each reload)
+function isParentExpandable(i){ return i % 5 !== 3; }          // rows 3,8,13 not expandable
+function isChildExpandable(i,ci){ return (i + ci) % 3 !== 2; } // every 3rd child not expandable
+
+const TABLE_ROWS = ACCOUNTS.map((acc,i)=>{
+  const rt   = ROW_TYPES[i%4];
+  const cat  = CATEGORIES[i%CATEGORIES.length];
+  const base = rnd(3,9);
+  const vals = MONTHS.map((_,mi)=> IDX_FUTURE.has(mi) ? null : rnd(base*0.75, base*1.25));
+  const children = SUB_LABELS.map((label,ci)=>{
+    const cbase = rnd(base*0.5, base*0.9);
+    const cvals = MONTHS.map((_,mi)=> IDX_FUTURE.has(mi) ? null : rnd(cbase*0.8, cbase*1.2));
+    const expandable = isChildExpandable(i,ci); // some children are expandable
+    return {label, vals:cvals, expandable};
+  });
+  const expandable = isParentExpandable(i) && children.length > 0;
+  return {acc, rt, cat, vals, children, expandable};
+});
+
+/* ═══════════════════════════════════════════
+   FORMATTING
+═══════════════════════════════════════════ */
+function fmtVal(v){
+  if(v===null) return '—';
+  return (v<0?'−':'')+'$'+Math.abs(v).toFixed(1)+'M';
+}
+function valCls(v){
+  if(v===null) return 'val-fut';
+  if(v>=5.5) return 'val-pos';
+  if(v<3.0)  return 'val-neg';
+  return 'val-neu';
+}
+
+// Should this cell be visually downgraded?
+// cat=2025 → all month cells downgraded
+// cat=Splice → only Q1-2025 months downgraded
+function isDegraded(cat, monthIdx){
+  if(cat==='2025') return IDX_2025.has(monthIdx);
+  if(cat==='Splice') return IDX_Q1_2025.has(monthIdx);
+  return false;
+}
+
+/* ═══════════════════════════════════════════
+   VIEW MODE (Actuals ↔ MoM Change)
+═══════════════════════════════════════════ */
+let viewMode = 'actuals'; // 'actuals' | 'mom'
+
+function toggleViewMode(){
+  viewMode = viewMode === 'actuals' ? 'mom' : 'actuals';
+  const btn = document.getElementById('viewToggleBtn');
+  if(btn){
+    const isMom = viewMode === 'mom';
+    btn.setAttribute('aria-pressed', String(isMom));
+    btn.innerHTML = isMom
+      ? '<span class="btn-view-icon" aria-hidden="true">Δ</span> MoM Change'
+      : '<span class="btn-view-icon" aria-hidden="true">≡</span> Actuals';
+    btn.setAttribute('aria-label', isMom
+      ? 'Currently showing Month-over-Month change. Click to switch to Actuals.'
+      : 'Currently showing Actuals. Click to switch to Month-over-Month change.');
+  }
+  buildBody();    // rebuild table cells with new formatting
+  updateChart();
+}
+
+// Compute MoM delta: null for first non-null, null for future
+function momVal(vals, mi){
+  if(IDX_FUTURE.has(mi) || vals[mi]===null) return null;
+  // find previous non-null value
+  for(let j=mi-1;j>=0;j--){
+    if(vals[j]!==null) return +(vals[mi]-vals[j]).toFixed(2);
+  }
+  return null; // no prior value
+}
+
+function getDisplayVal(vals, mi){
+  if(viewMode==='mom') return momVal(vals, mi);
+  return IDX_FUTURE.has(mi) ? null : vals[mi];
+}
+
+function fmtDisplayVal(vals, mi){
+  const v = getDisplayVal(vals, mi);
+  if(v===null) return '—';
+  if(viewMode==='mom'){
+    return (v>0?'+':'') + (v<0?'−':'') + '$' + Math.abs(v).toFixed(1)+'M';
+  }
+  return (v<0?'−':'')+'$'+Math.abs(v).toFixed(1)+'M';
+}
+
+function displayValCls(vals, mi){
+  const v = getDisplayVal(vals, mi);
+  if(v===null) return 'val-fut';
+  if(viewMode==='mom') return v>0?'val-pos': v<0?'val-neg':'val-neu';
+  return v>=5.5?'val-pos': v<3.0?'val-neg':'val-neu';
+}
+
+/* ═══════════════════════════════════════════
+   SELECT-BOX FILTERS (State / Metro / Industry)
+═══════════════════════════════════════════ */
+// Which row indices pass the current dropdown selects
+function selectFilterPassesRow(row){
+  const state    = document.getElementById('sel-state')?.value    || '';
+  const metro    = document.getElementById('sel-metro')?.value    || '';
+  const industry = document.getElementById('sel-industry')?.value || '';
+  if(state    && row.acc.state    !== state)    return false;
+  if(metro    && row.acc.metro    !== metro)    return false;
+  if(industry && row.acc.industry !== industry) return false;
+  return true;
+}
+
+function applyDropdownSelects(){
+  buildBody();   // full rebuild so select-filtered rows never appear
+  updateChart();
+}
+
+/* ═══════════════════════════════════════════
+   FILTER STATE (column header filters)
+═══════════════════════════════════════════ */
+const activeFilters={};
+
+function getCellText(row,colIdx){
+  if(colIdx===COL_DESC) return row.acc.name;
+  if(colIdx===COL_CAT)  return row.cat;
+  const mi=colIdx-2;
+  return fmtVal(row.vals[mi]);
+}
+function getUniqueValues(colIdx){
+  const s=new Set(TABLE_ROWS.map(r=>getCellText(r,colIdx)));
+  return [...s].sort((a,b)=>{
+    if(a==='—') return 1; if(b==='—') return -1;
+    return a.localeCompare(b,undefined,{numeric:true});
+  });
+}
+
+/* ═══════════════════════════════════════════
+   BUILD HEAD
+═══════════════════════════════════════════ */
+function buildHead(){
+  const head=document.getElementById('tableHead');
+  head.innerHTML='';
+  const tr=document.createElement('tr');
+
+  // checkbox col
+  const thCb=document.createElement('th');
+  thCb.className='cb-cell';
+  thCb.setAttribute('scope','col');
+  thCb.innerHTML=`<div class="th-inner" style="justify-content:center;padding:7px 4px">
+    <input type="checkbox" id="selectAll" aria-label="Select all visible rows" onchange="toggleSelectAll(this);updateChart()">
+  </div>`;
+  tr.appendChild(thCb);
+
+  // description col
+  appendTh(tr,'Account','desc-cell',COL_DESC);
+
+  // month cols
+  MONTHS.forEach((m,mi)=> appendTh(tr,m,'month-cell',mi+2));
+
+  // category col
+  appendTh(tr,'Category','cat-cell',COL_CAT);
+
+  head.appendChild(tr);
+}
+
+function appendTh(tr,label,cls,colIdx){
+  const th=document.createElement('th');
+  th.setAttribute('scope','col');
+  if(cls) th.className=cls;
+  const hasFilter=activeFilters[colIdx]&&activeFilters[colIdx].size>0;
+  const isRight=cls==='month-cell';
+  // Only show filter button for Account (COL_DESC) and Category (COL_CAT)
+  const showFilter = colIdx===COL_DESC || colIdx===COL_CAT;
+  const filterHtml = showFilter
+    ? `<button class="filter-btn${hasFilter?' active':''}"
+        aria-label="Filter by ${label}${hasFilter?' (active)':''}"
+        aria-haspopup="dialog"
+        onclick="openFilter(event,${colIdx})">▾</button>`
+    : '';
+  th.innerHTML=`<div class="th-inner${isRight?' right':''}">
+    <span class="th-label">${label}</span>
+    ${filterHtml}
+  </div>`;
+  tr.appendChild(th);
+}
+
+/* ═══════════════════════════════════════════
+   BUILD BODY
+═══════════════════════════════════════════ */
+function buildBody(){
+  const tbody=document.getElementById('tableBody');
+  tbody.innerHTML='';
+
+  TABLE_ROWS.forEach((row,i)=>{
+    // Apply dropdown selects — skip entirely if filtered out
+    if(!selectFilterPassesRow(row)) return;
+
+    const parentId=`row-${i}`;
+    const childGroupId=`grp-${i}`;
+
+    /* ── Parent row ── */
+    const tr=document.createElement('tr');
+    tr.className='data-row '+row.rt.cls;
+    tr.dataset.rowIdx=String(i);
+    tr.dataset.expanded='false';
+    tr.setAttribute('aria-rowindex', i+1);
+
+    // cb
+    const tdCb=document.createElement('td');
+    tdCb.className='cb-cell';
+    tdCb.innerHTML=`<input type="checkbox" class="row-cb" aria-label="Select ${row.acc.name}" onchange="updateSelectAll();updateChart()">`;
+    tr.appendChild(tdCb);
+
+    // desc: expand button if expandable, else spacer
+    const tdDesc=document.createElement('td');
+    tdDesc.className='desc-cell';
+    const expandId=`expand-${i}`;
+    const expandCtrl = row.expandable
+      ? `<button class="expand-btn" id="${expandId}" aria-expanded="false" aria-controls="${childGroupId}" aria-label="Expand ${row.acc.name}" onclick="toggleRow(${i},this)"><svg viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M2 1l4 3-4 3V1z"/></svg></button>`
+      : `<span class="expand-spacer" aria-hidden="true"></span>`;
+    tdDesc.innerHTML=`<div class="desc-inner">${expandCtrl}<div class="desc-text"><div class="desc-name" title="${row.acc.name}">${row.acc.name}</div><div class="desc-sub">${row.acc.sub}</div></div></div>`;
+    tr.appendChild(tdDesc);
+
+    // month cells
+    row.vals.forEach((_,mi)=>{
+      const td=document.createElement('td');
+      td.className='month-cell';
+      const dg=isDegraded(row.cat,mi);
+      const displayTxt=fmtDisplayVal(row.vals,mi);
+      const v=getDisplayVal(row.vals,mi);
+      if(dg){
+        td.classList.add('val-dg');
+        td.setAttribute('title',`${MONTHS[mi]}: downgraded (${row.cat} category)`);
+      } else {
+        td.classList.add(displayValCls(row.vals,mi));
+      }
+      td.textContent=displayTxt;
+      td.setAttribute('aria-label',`${MONTHS[mi]}: ${displayTxt}${dg?' (downgraded)':''}`);
+      tr.appendChild(td);
+    });
+
+    // category
+    const tdCat=document.createElement('td');
+    tdCat.className='cat-cell';
+    tdCat.innerHTML=`<span class="chip ${CAT_CHIP[row.cat]}">${row.cat}</span>`;
+    tr.appendChild(tdCat);
+
+    tbody.appendChild(tr);
+
+    /* ── Child rows (level 2) ── */
+    row.children.forEach((child,ci)=>{
+      const childId=`child-${i}-${ci}`;
+      const grandChildGroupId=`grp-${i}-${ci}`;
+      const ctr=document.createElement('tr');
+      ctr.className='sub-row sub-hidden '+row.rt.cls;
+      ctr.id=childId;
+      ctr.dataset.parentIdx=String(i);
+      ctr.dataset.childIdx=String(ci);
+      ctr.dataset.expanded='false';
+      ctr.dataset.group=childGroupId;
+      ctr.setAttribute('aria-rowindex', i+1);
+
+      // cb placeholder
+      const cCb=document.createElement('td');
+      cCb.className='cb-cell';
+      cCb.innerHTML=`<input type="checkbox" class="child-cb" aria-label="Select ${row.acc.name} – ${child.label}" onchange="updateSelectAll()">`;
+      ctr.appendChild(cCb);
+
+      // desc: expand button only if this child is expandable
+      const cDesc=document.createElement('td');
+      cDesc.className='desc-cell desc-l2';
+      const cExpandId=`expand-${i}-${ci}`;
+      const cExpandCtrl = child.expandable
+        ? `<button class="expand-btn" id="${cExpandId}" aria-expanded="false" aria-controls="${grandChildGroupId}" aria-label="Expand ${child.label}" onclick="toggleChild(${i},${ci},this)"><svg viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M2 1l4 3-4 3V1z"/></svg></button>`
+        : `<span class="expand-spacer" aria-hidden="true"></span>`;
+      cDesc.innerHTML=`<div class="desc-inner">${cExpandCtrl}<div class="desc-text"><div class="desc-name" title="${child.label}">${child.label}</div></div></div>`;
+      ctr.appendChild(cDesc);
+
+      // month cells
+      child.vals.forEach((_,mi)=>{
+        const td=document.createElement('td');
+        td.className='month-cell';
+        const dg=isDegraded(row.cat,mi);
+        const displayTxt=fmtDisplayVal(child.vals,mi);
+        if(dg){ td.classList.add('val-dg') }
+        else   { td.classList.add(displayValCls(child.vals,mi)) }
+        td.textContent=displayTxt;
+        td.setAttribute('aria-label',`${MONTHS[mi]}: ${displayTxt}${dg?' (downgraded)':''}`);
+        ctr.appendChild(td);
+      });
+
+      // cat
+      const cCat=document.createElement('td');
+      cCat.className='cat-cell';
+      cCat.innerHTML=`<span class="chip ${CAT_CHIP[row.cat]}">${row.cat}</span>`;
+      ctr.appendChild(cCat);
+
+      tbody.appendChild(ctr);
+
+      /* ── Grandchild rows (level 3) — only when child is expandable, no expand button on these ── */
+      if(child.expandable) ['Q1','Q2','Q3','Q4'].forEach((qLabel,qi)=>{
+        const gctr=document.createElement('tr');
+        gctr.className='sub-row sub-hidden '+row.rt.cls;
+        gctr.dataset.parentIdx=String(i);
+        gctr.dataset.childIdx=String(ci);
+        gctr.dataset.grandChild='true';
+        gctr.dataset.group=grandChildGroupId;
+
+        // cb
+        const gcCb=document.createElement('td');
+        gcCb.className='cb-cell';
+        gcCb.innerHTML=`<input type="checkbox" class="grandchild-cb" aria-label="Select ${row.acc.name} – ${child.label} – ${qLabel}">`;
+        gctr.appendChild(gcCb);
+
+        // desc — spacer only, no expand button
+        const gcDesc=document.createElement('td');
+        gcDesc.className='desc-cell desc-l3';
+        gcDesc.innerHTML=`<div class="desc-inner"><span class="expand-spacer" aria-hidden="true"></span><div class="desc-text"><div class="desc-name">${qLabel}</div></div></div>`;
+        gctr.appendChild(gcDesc);
+
+        // month cells
+        child.vals.forEach((_,mi)=>{
+          const td=document.createElement('td');
+          td.className='month-cell';
+          // grandchild: scale down child vals for sub-quarter display
+          const gcVals=child.vals.map(v=> v!==null ? rnd(v*0.2,v*0.35) : null);
+          const dg=isDegraded(row.cat,mi);
+          const displayTxt=fmtDisplayVal(gcVals,mi);
+          if(dg){ td.classList.add('val-dg') }
+          else   { td.classList.add(displayValCls(gcVals,mi)) }
+          td.textContent=displayTxt;
+          td.setAttribute('aria-label',`${MONTHS[mi]}: ${displayTxt}${dg?' (downgraded)':''}`);
+          gctr.appendChild(td);
+        });
+
+        // cat
+        const gcCat=document.createElement('td');
+        gcCat.className='cat-cell';
+        gcCat.innerHTML=`<span class="chip ${CAT_CHIP[row.cat]}">${row.cat}</span>`;
+        gctr.appendChild(gcCat);
+
+        tbody.appendChild(gctr);
+      });
+    });
+  });
+
+  applyFilters();
+}
+
+function buildTable(){buildHead();buildBody()}
+
+/* ═══════════════════════════════════════════
+   ROW EXPAND / COLLAPSE
+═══════════════════════════════════════════ */
+function toggleRow(rowIdx, btn){
+  const expanded = btn.getAttribute('aria-expanded')==='true';
+  const newState = !expanded;
+  btn.setAttribute('aria-expanded', String(newState));
+  const groupId=`grp-${rowIdx}`;
+  // show/hide direct children (level 2)
+  document.querySelectorAll(`tr.sub-row[data-group="${groupId}"]`).forEach(child=>{
+    child.classList.toggle('sub-hidden', !newState);
+    // when collapsing parent, also collapse grandchildren
+    if(!newState){
+      const ci=child.dataset.childIdx;
+      const gcGroupId=`grp-${rowIdx}-${ci}`;
+      document.querySelectorAll(`tr.sub-row[data-group="${gcGroupId}"]`).forEach(gc=>{
+        gc.classList.add('sub-hidden');
+      });
+      // reset child expand button
+      const cBtn=document.getElementById(`expand-${rowIdx}-${ci}`);
+      if(cBtn) cBtn.setAttribute('aria-expanded','false');
+    }
+  });
+}
+
+function toggleChild(rowIdx, childIdx, btn){
+  const expanded = btn.getAttribute('aria-expanded')==='true';
+  const newState = !expanded;
+  btn.setAttribute('aria-expanded', String(newState));
+  const gcGroupId=`grp-${rowIdx}-${childIdx}`;
+  document.querySelectorAll(`tr.sub-row[data-group="${gcGroupId}"]`).forEach(gc=>{
+    gc.classList.toggle('sub-hidden', !newState);
+  });
+}
+
+function expandAll(){
+  TABLE_ROWS.forEach((row,i)=>{
+    if(!row.expandable) return;
+    const btn=document.getElementById(`expand-${i}`);
+    if(btn && btn.getAttribute('aria-expanded')==='false') toggleRow(i,btn);
+    row.children.forEach((child,ci)=>{
+      if(!child.expandable) return;
+      const cBtn=document.getElementById(`expand-${i}-${ci}`);
+      if(cBtn && cBtn.getAttribute('aria-expanded')==='false') toggleChild(i,ci,cBtn);
+    });
+  });
+}
+
+function collapseAll(){
+  TABLE_ROWS.forEach((row,i)=>{
+    if(!row.expandable) return;
+    row.children.forEach((child,ci)=>{
+      if(!child.expandable) return;
+      const cBtn=document.getElementById(`expand-${i}-${ci}`);
+      if(cBtn && cBtn.getAttribute('aria-expanded')==='true') toggleChild(i,ci,cBtn);
+    });
+    const btn=document.getElementById(`expand-${i}`);
+    if(btn && btn.getAttribute('aria-expanded')==='true') toggleRow(i,btn);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   CHECKBOX
+═══════════════════════════════════════════ */
+function toggleSelectAll(masterCb){
+  document.querySelectorAll('.row-cb,.child-cb,.grandchild-cb').forEach(cb=>{
+    const tr=cb.closest('tr');
+    if(tr && !tr.classList.contains('filtered-out') && !tr.classList.contains('sub-hidden'))
+      cb.checked=masterCb.checked;
+  });
+}
+function updateSelectAll(){
+  const all=[...document.querySelectorAll('.row-cb')]
+              .filter(cb=>!cb.closest('tr').classList.contains('filtered-out'));
+  const chked=all.filter(cb=>cb.checked);
+  const sa=document.getElementById('selectAll');
+  if(!sa) return;
+  sa.checked       = chked.length===all.length && all.length>0;
+  sa.indeterminate = chked.length>0 && chked.length<all.length;
+}
+
+/* ═══════════════════════════════════════════
+   FILTER APPLY
+═══════════════════════════════════════════ */
+function applyFilters(){
+  const dataRows=document.querySelectorAll('tr.data-row');
+  let visible=0;
+  dataRows.forEach(tr=>{
+    const row=TABLE_ROWS[parseInt(tr.dataset.rowIdx)];
+    let show=true;
+    for(const[k,allowed] of Object.entries(activeFilters)){
+      if(!allowed||allowed.size===0) continue;
+      if(!allowed.has(getCellText(row,parseInt(k)))){ show=false; break; }
+    }
+    tr.classList.toggle('filtered-out',!show);
+    if(show) visible++;
+    // hide child/grandchild rows of hidden parents
+    if(!show){
+      const i=tr.dataset.rowIdx;
+      document.querySelectorAll(`tr[data-parent-idx="${i}"]`).forEach(c=>c.classList.add('filtered-out'));
+    }
+  });
+  document.getElementById('rowCountBadge').textContent=visible+' rows';
+  const hasAny=Object.values(activeFilters).some(s=>s&&s.size>0);
+  document.getElementById('clearFiltersBtn').classList.toggle('hidden',!hasAny);
+  updateSelectAll();
+  updateChart();
+}
+
+function clearAllFilters(){
+  Object.keys(activeFilters).forEach(k=>delete activeFilters[k]);
+  buildHead(); applyFilters();
+}
+
+/* ═══════════════════════════════════════════
+   FILTER DROPDOWN
+═══════════════════════════════════════════ */
+let currentColIdx=null;
+let pendingSelection=new Set();
+
+function openFilter(e,colIdx){
+  // Only Account and Category columns have filters
+  if(colIdx!==COL_DESC && colIdx!==COL_CAT) return;
+  e.stopPropagation();
+  const dd=document.getElementById('filterDropdown');
+  if(currentColIdx===colIdx&&dd.classList.contains('open')){closeDropdown();return}
+  currentColIdx=colIdx;
+  const allVals=getUniqueValues(colIdx);
+  pendingSelection=activeFilters[colIdx]?new Set(activeFilters[colIdx]):new Set(allVals);
+  document.getElementById('fdSearch').value='';
+  renderFdList(allVals);
+  const rect=e.currentTarget.getBoundingClientRect();
+  const ddW=210;
+  let left=rect.left;
+  if(left+ddW>window.innerWidth-8) left=window.innerWidth-ddW-8;
+  if(left<4) left=4;
+  let top=rect.bottom+4;
+  if(top+320>window.innerHeight) top=Math.max(4,rect.top-320);
+  dd.style.top=top+'px';
+  dd.style.left=left+'px';
+  dd.classList.add('open');
+  // focus search
+  setTimeout(()=>document.getElementById('fdSearch').focus(),50);
+}
+
+function renderFdList(vals){
+  const list=document.getElementById('fdList');
+  list.innerHTML='';
+  vals.forEach((val,vi)=>{
+    const lbl=document.createElement('label');
+    lbl.className='fd-item';
+    lbl.htmlFor=`fd-cb-${vi}`;
+    const cb=document.createElement('input');
+    cb.type='checkbox'; cb.id=`fd-cb-${vi}`;
+    cb.checked=pendingSelection.has(val);
+    cb.addEventListener('change',()=>{ cb.checked?pendingSelection.add(val):pendingSelection.delete(val); });
+    const sp=document.createElement('span');
+    sp.className='fd-item-label'; sp.textContent=val;
+    lbl.appendChild(cb); lbl.appendChild(sp);
+    list.appendChild(lbl);
+  });
+}
+
+function filterDropdownSearch(){
+  const q=document.getElementById('fdSearch').value.toLowerCase();
+  renderFdList(getUniqueValues(currentColIdx).filter(v=>v.toLowerCase().includes(q)));
+}
+function fdSelectAll(){
+  const q=document.getElementById('fdSearch').value.toLowerCase();
+  getUniqueValues(currentColIdx).filter(v=>v.toLowerCase().includes(q)).forEach(v=>pendingSelection.add(v));
+  filterDropdownSearch();
+}
+function fdClearAll(){
+  const q=document.getElementById('fdSearch').value.toLowerCase();
+  getUniqueValues(currentColIdx).filter(v=>v.toLowerCase().includes(q)).forEach(v=>pendingSelection.delete(v));
+  filterDropdownSearch();
+}
+function applyDropdownFilter(){
+  const allVals=getUniqueValues(currentColIdx);
+  if(pendingSelection.size>=allVals.length){ delete activeFilters[currentColIdx]; }
+  else { activeFilters[currentColIdx]=new Set(pendingSelection); }
+  buildHead(); applyFilters(); closeDropdown();
+}
+function closeDropdown(){
+  document.getElementById('filterDropdown').classList.remove('open');
+  currentColIdx=null;
+}
+
+// Keyboard: Escape closes dropdown
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('filterDropdown').classList.contains('open')) closeDropdown();
+  }
+});
+// Click outside closes
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('filterDropdown');
+  if(dd.classList.contains('open')&&!dd.contains(e.target)) closeDropdown();
+});
+
+/* ═══════════════════════════════════════════
+   CHART — single line: sum of checked rows
+═══════════════════════════════════════════ */
+let chartInst = null;
+
+// Compute per-month sums for all currently checked top-level rows
+function getCheckedSums(){
+  const sums = MONTHS.map(()=>0);
+  let anyChecked = false;
+  document.querySelectorAll('tr.data-row').forEach(tr=>{
+    if(tr.classList.contains('filtered-out')) return;
+    const cb = tr.querySelector('.row-cb');
+    if(!cb || !cb.checked) return;
+    anyChecked = true;
+    const rowIdx = parseInt(tr.dataset.rowIdx);
+    const row = TABLE_ROWS[rowIdx];
+    row.vals.forEach((v,mi)=>{ if(v !== null) sums[mi] += v; });
+  });
+  // return null array if nothing checked so chart shows empty state
+  if(!anyChecked) return null;
+  return sums.map((s,mi)=> IDX_FUTURE.has(mi) ? null : +s.toFixed(2));
+}
+
+function getTickColor(){
+  return document.documentElement.getAttribute('data-theme')==='dark' ? '#8a9ab5' : '#6b7280';
+}
+function getGridColor(){
+  return document.documentElement.getAttribute('data-theme')==='dark'
+    ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)';
+}
+
+function updateChart(){
+  const data = getCheckedSums();
+  const tickColor = getTickColor();
+  const gridColor = getGridColor();
+
+  // Compute y-axis range from non-null values with padding
+  let yMin = 0, yMax = 10;
+  if(data){
+    const vals = data.filter(v=>v!==null);
+    if(vals.length){
+      const rawMin = Math.min(...vals);
+      const rawMax = Math.max(...vals);
+      const pad = Math.max((rawMax - rawMin) * 0.15, rawMax * 0.05, 0.5);
+      yMin = Math.max(0, rawMin - pad);
+      yMax = rawMax + pad;
+    }
+  }
+
+  const plotData = data || MONTHS.map((_,mi)=> IDX_FUTURE.has(mi) ? null : 0);
+  const noSelection = !data;
+
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if(chartInst) chartInst.destroy();
+  chartInst = new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:MONTHS,
+      datasets:[{
+        label:'Sum of selected rows',
+        data: plotData,
+        borderColor: noSelection ? 'rgba(138,154,181,0.3)' : '#3d8ef0',
+        backgroundColor: noSelection ? 'rgba(138,154,181,0.04)' : 'rgba(61,142,240,0.08)',
+        pointBackgroundColor: noSelection ? 'rgba(138,154,181,0.3)' : '#3d8ef0',
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        borderWidth: 2,
+        tension: 0.35,
+        fill: true,
+        spanGaps: false
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:{ duration:250 },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          mode:'index',intersect:false,
+          callbacks:{
+            label: ctx => noSelection
+              ? 'No rows selected'
+              : 'Total: $'+ctx.parsed.y.toFixed(2)+'M'
+          }
+        }
+      },
+      scales:{
+        x:{
+          grid:{color:gridColor},
+          ticks:{color:tickColor,font:{size:9},maxRotation:50,autoSkip:false}
+        },
+        y:{
+          min: +yMin.toFixed(2),
+          max: +yMax.toFixed(2),
+          grid:{color:gridColor},
+          ticks:{color:tickColor,font:{size:10},callback:v=>'$'+v.toFixed(1)+'M'}
+        }
+      }
+    }
+  });
+
+  const checkedCount = data
+    ? document.querySelectorAll('tr.data-row:not(.filtered-out) .row-cb:checked').length
+    : 0;
+  const titleEl = document.getElementById('chart-title');
+  if(titleEl){
+    titleEl.textContent = checkedCount > 0
+      ? `Sum of ${checkedCount} selected row${checkedCount===1?'':'s'} — Jan 2025 to Sep 2026`
+      : 'No rows selected — check rows below to plot their sum';
+  }
+}
+
+/* ═══════════════════════════════════════════
+   THEME TOGGLE
+═══════════════════════════════════════════ */
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  const btn = document.getElementById('themeToggle');
+  if(btn){
+    btn.textContent = next === 'dark' ? '☽' : '☀';
+    btn.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  // Redraw chart with theme-appropriate axis colors
+  updateChart();
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+const NAV = [
+  {
+    id:'overview', label:'Overview',
+    pages:['Dashboard','Summary','Snapshot','KPI Board']
+  },
+  {
+    id:'analytics', label:'Analytics',
+    subcats:[
+      {id:'performance', label:'Performance', pages:['Revenue','Margin','Units Sold','Win Rate']},
+      {id:'pipeline',    label:'Pipeline',    pages:['Opportunities','Stages','Forecasting','Velocity']},
+      {id:'customers',   label:'Customers',   pages:['Accounts','Segments','Churn','NPS Trends']}
+    ]
+  },
+  {
+    id:'reports', label:'Reports',
+    pages:['Monthly Report','Quarterly Review','Annual Summary','Exports']
+  },
+  {
+    id:'planning', label:'Planning',
+    pages:['Targets','Budgets','Headcount','Roadmap']
+  },
+  {
+    id:'admin', label:'Admin',
+    pages:['Users','Permissions','Integrations','Audit Log']
+  }
+];
+
+// State
+let activeCat    = 'overview';
+let activeSubcat = 'performance'; // only relevant when Analytics active
+let activePage   = 'Dashboard';
+
+function buildPageLinks(pages){
+  const sep = document.createElement('div');
+  sep.className = 'page-links-sep';
+  sep.setAttribute('aria-hidden','true');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'page-links';
+  wrap.setAttribute('aria-label','Pages');
+
+  pages.forEach(pg=>{
+    const a = document.createElement('a');
+    a.className = 'page-link' + (pg===activePage?' active':'');
+    a.textContent = pg;
+    a.href = '#';
+    if(pg===activePage) a.setAttribute('aria-current','page');
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      activePage = pg;
+      renderNav();
+    });
+    wrap.appendChild(a);
+  });
+
+  return [sep, wrap];
+}
+
+function renderNav(){
+  const catBar    = document.getElementById('catBar');
+  const subcatBar = document.getElementById('subcatBar');
+  const catDef    = NAV.find(c=>c.id===activeCat);
+  const hasSubcats = !!(catDef && catDef.subcats);
+  const pages      = getPagesForCurrent();
+
+  // ── Category bar: tabs on left, page links on right (only when no subcats) ──
+  catBar.innerHTML = '';
+
+  const catTabs = document.createElement('div');
+  catTabs.className = 'cat-tabs';
+  NAV.forEach(cat=>{
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab' + (cat.id===activeCat?' active':'');
+    btn.textContent = cat.label;
+    btn.setAttribute('aria-pressed', String(cat.id===activeCat));
+    btn.setAttribute('aria-label', cat.label + ' category');
+    if(cat.id===activeCat) btn.setAttribute('aria-current','true');
+    btn.addEventListener('click',()=>{
+      activeCat = cat.id;
+      if(cat.subcats) activeSubcat = cat.subcats[0].id;
+      activePage = getPagesForCurrent()[0];
+      // recalculate after state change
+      activePage = NAV.find(c=>c.id===activeCat)?.subcats
+        ? NAV.find(c=>c.id===activeCat).subcats[0].pages[0]
+        : NAV.find(c=>c.id===activeCat)?.pages[0] ?? activePage;
+      renderNav();
+    });
+    catTabs.appendChild(btn);
+  });
+  catBar.appendChild(catTabs);
+
+  if(!hasSubcats){
+    // Pages go on the right of the cat bar
+    const [sep, wrap] = buildPageLinks(pages);
+    catBar.appendChild(sep);
+    catBar.appendChild(wrap);
+  }
+
+  // ── Subcat bar: subcat tabs on left, page links on right ──
+  subcatBar.classList.toggle('hidden', !hasSubcats);
+
+  if(hasSubcats){
+    subcatBar.innerHTML = '';
+
+    const scTabs = document.createElement('div');
+    scTabs.className = 'subcat-tabs';
+    catDef.subcats.forEach(sc=>{
+      const btn = document.createElement('button');
+      btn.className = 'subcat-tab' + (sc.id===activeSubcat?' active':'');
+      btn.textContent = sc.label;
+      btn.setAttribute('aria-pressed', String(sc.id===activeSubcat));
+      btn.setAttribute('aria-label', sc.label + ' subcategory');
+      if(sc.id===activeSubcat) btn.setAttribute('aria-current','true');
+      btn.addEventListener('click',()=>{
+        activeSubcat = sc.id;
+        activePage = catDef.subcats.find(s=>s.id===activeSubcat)?.pages[0] ?? activePage;
+        renderNav();
+      });
+      scTabs.appendChild(btn);
+    });
+    subcatBar.appendChild(scTabs);
+
+    // Pages on the right of the subcat bar
+    const [sep, wrap] = buildPageLinks(pages);
+    subcatBar.appendChild(sep);
+    subcatBar.appendChild(wrap);
+  }
+
+  // ── Update page title & breadcrumb ──
+  const titleEl    = document.getElementById('nav-page-title');
+  const subtitleEl = document.getElementById('nav-page-sub');
+  if(titleEl) titleEl.textContent = activePage;
+  if(subtitleEl){
+    const crumb = hasSubcats
+      ? `${catDef.label} › ${catDef.subcats.find(s=>s.id===activeSubcat)?.label} › ${activePage}`
+      : `${catDef?.label} › ${activePage}`;
+    subtitleEl.textContent = crumb;
+  }
+}
+
+function getPagesForCurrent(){
+  const catDef = NAV.find(c=>c.id===activeCat);
+  if(!catDef) return [];
+  if(catDef.subcats){
+    const sc = catDef.subcats.find(s=>s.id===activeSubcat) || catDef.subcats[0];
+    return sc.pages;
+  }
+  return catDef.pages;
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+buildTable();
+updateChart();
+renderNav();
+</script>
+</body>
+</html>
