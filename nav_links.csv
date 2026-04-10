@@ -1,0 +1,29 @@
+Name,Link,Category,Subcategory
+Dashboard,#,Overview,
+Summary,#,Overview,
+Snapshot,#,Overview,
+KPI Board,#,Overview,
+Revenue,#,Analytics,Performance
+Margin,#,Analytics,Performance
+Units Sold,#,Analytics,Performance
+Win Rate,#,Analytics,Performance
+Opportunities,#,Analytics,Pipeline
+Stages,#,Analytics,Pipeline
+Forecasting,#,Analytics,Pipeline
+Velocity,#,Analytics,Pipeline
+Accounts,#,Analytics,Customers
+Segments,#,Analytics,Customers
+Churn,#,Analytics,Customers
+NPS Trends,#,Analytics,Customers
+Monthly Report,#,Reports,
+Quarterly Review,#,Reports,
+Annual Summary,#,Reports,
+Exports,#,Reports,
+Targets,#,Planning,
+Budgets,#,Planning,
+Headcount,#,Planning,
+Roadmap,#,Planning,
+Users,#,Admin,
+Permissions,#,Admin,
+Integrations,#,Admin,
+Audit Log,#,Admin,

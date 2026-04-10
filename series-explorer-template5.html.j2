@@ -1,0 +1,398 @@
+{#
+  series-explorer-template5.html.j2
+  ──────────────────────────────────
+  Render with: python3 render.py
+
+  Data sources:
+    nav_links.csv    — nav bar (Name, Link, Category, Subcategory)
+    series_data.json — table rows
+
+  Variables injected by render.py:
+    rows       — list of row objects from series_data.json
+    nav_js     — nav structure for the JS NAV constant (parsed from CSV)
+    months     — list of 21 month label strings
+    states     — unique sorted state values (for dropdown)
+    metros     — unique sorted metro values (for dropdown)
+    industries — unique sorted industry values (for dropdown)
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Datavance — Portfolio Overview</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="series-explorer.css">
+</head>
+<body>
+
+{# Skip link for keyboard/screen-reader users #}
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+{# ── Top bar: logo + utility links + theme toggle ── #}
+<div class="top-bar" role="banner">
+  <a class="logo" href="#" aria-label="Datavance home">
+    <div class="logo-dot" aria-hidden="true"></div>Datavance
+  </a>
+  <nav class="top-bar-util" aria-label="Utility navigation">
+    <a class="util-link" href="#">Help</a>
+    <a class="util-link" href="#">Settings</a>
+    <a class="util-link" href="#">Profile</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"
+      aria-label="Switch to dark mode" title="Toggle light/dark mode">☀</button>
+  </nav>
+</div>
+
+{# ── Category bar — populated by JS renderNav() using NAV data from nav_links.csv ── #}
+<nav class="cat-bar" id="catBar" aria-label="Main categories"></nav>
+
+{# ── Subcategory bar — shown by renderNav() when the active category has subcategories ── #}
+<nav class="subcat-bar hidden" id="subcatBar" aria-label="Subcategories and pages"></nav>
+
+<main id="main-content" tabindex="-1">
+
+  {# Page title and breadcrumb — updated by JS renderNav() on tab clicks #}
+  <p class="page-title" id="nav-page-title">Dashboard</p>
+  <p class="page-sub"   id="nav-page-sub">Overview › Dashboard</p>
+
+  {# ── Row filter dropdowns + actuals/MoM view toggle ── #}
+  <section aria-label="Data filters">
+    <div class="controls">
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sel-state">State</label>
+        <select id="sel-state" onchange="applyFilters()">
+          <option value="">All States</option>
+          {% for s in states %}<option>{{ s }}</option>{% endfor %}
+        </select>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sel-metro">Metro Area</label>
+        <select id="sel-metro" onchange="applyFilters()">
+          <option value="">All Metros</option>
+          {% for m in metros %}<option>{{ m }}</option>{% endfor %}
+        </select>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sel-industry">Industry</label>
+        <select id="sel-industry" onchange="applyFilters()">
+          <option value="">All Industries</option>
+          {% for ind in industries %}<option>{{ ind }}</option>{% endfor %}
+        </select>
+      </div>
+
+      <div class="ctrl-group" style="justify-content:flex-end">
+        <span class="ctrl-label" id="view-mode-label">View</span>
+        <button class="btn-view-toggle" id="viewToggleBtn"
+          aria-label="Currently showing Actuals. Click to switch to Month-over-Month change."
+          aria-pressed="false" onclick="toggleViewMode()">
+          <span class="btn-view-icon" aria-hidden="true">≡</span> Actuals
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  {# ── Chart card — JS draws a Chart.js line of summed selected rows ── #}
+  <section aria-label="Revenue chart">
+    <div class="chart-card">
+      <div class="chart-header">
+        <span class="chart-title" id="chart-title">No rows selected — check rows below to plot their sum</span>
+        <div class="legend" aria-hidden="true">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#3d8ef0"></div>
+            Sum of selected rows
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="mainChart" role="img" aria-labelledby="chart-title"></canvas>
+      </div>
+    </div>
+  </section>
+
+  {# ── Table card ── #}
+  <section aria-label="Detailed records table">
+    <div class="table-card">
+
+      <div class="table-header-bar">
+        <span class="table-title" id="table-desc">Detailed Records</span>
+        <div class="tbar-right">
+          <button class="tbar-btn" onclick="expandAll()"   aria-label="Expand all rows">Expand all</button>
+          <button class="tbar-btn" onclick="collapseAll()" aria-label="Collapse all rows">Collapse all</button>
+          <button class="tbar-btn hidden" id="clearFiltersBtn" onclick="clearAllFilters()">✕ Clear filters</button>
+          {# Row count updated by JS applyFilters() #}
+          <span class="badge badge-blue" id="rowCountBadge"
+            aria-live="polite" aria-atomic="true">{{ rows|length }} rows</span>
+        </div>
+      </div>
+
+      {# Legend explaining the downgraded-cell highlight style #}
+      <div class="dg-legend" role="note" aria-label="Value highlighting key">
+        <strong style="color:var(--text2);font-size:10px">Highlight key:</strong>
+        <div class="dg-legend-item">
+          <div class="dg-swatch" aria-hidden="true"><em>1.2</em></div>
+          <span>2025 category — all months downgraded</span>
+        </div>
+      </div>
+
+      <div role="region" aria-label="Data table">
+        <table aria-labelledby="table-desc" aria-describedby="rowCountBadge">
+          <colgroup>
+            <col class="col-cb">
+            <col class="col-desc">
+            {# One col per month #}
+            <col class="col-month" span="{{ months|length }}">
+            <col class="col-cat">
+          </colgroup>
+
+          {# ── thead: checkbox + Account + one th per month + Category ── #}
+          <thead>
+            <tr>
+              <th class="cb-cell" scope="col">
+                <div class="th-inner" style="justify-content:center;padding:7px 4px">
+                  <input type="checkbox" id="selectAll"
+                    aria-label="Select all visible rows"
+                    onchange="toggleSelectAll(this);updateChart()">
+                </div>
+              </th>
+              <th class="desc-cell" scope="col">
+                <div class="th-inner">
+                  <span class="th-label">Account</span>
+                  {# data-col tells openFilter() which column was clicked #}
+                  <button class="filter-btn" data-col="1"
+                    onclick="openFilter(event,1)"
+                    aria-label="Filter by account" title="Filter">▾</button>
+                </div>
+              </th>
+              {% for month in months %}
+              <th class="month-cell" scope="col">
+                <div class="th-inner right">
+                  <span class="th-label">{{ month }}</span>
+                </div>
+              </th>
+              {% endfor %}
+              {# COL_CAT index = 0(cb) + 1(desc) + len(months) = months|length + 2 in JS #}
+              <th class="cat-cell" scope="col">
+                <div class="th-inner">
+                  <span class="th-label">Category</span>
+                  <button class="filter-btn" data-col="{{ months|length + 2 }}"
+                    onclick="openFilter(event,{{ months|length + 2 }})"
+                    aria-label="Filter by category" title="Filter">▾</button>
+                </div>
+              </th>
+            </tr>
+          </thead>
+
+          {# ── tbody: one parent row per entry in series_data.json ── #}
+          <tbody>
+
+            {# Macro: renders the 21 month <td>s for any row (parent/child/grandchild).
+               Initial coloring uses actuals thresholds; JS refreshCells() re-colors on view toggle. #}
+            {% macro month_cells(vals, category) %}
+              {% for val in vals %}
+                {% set mi = loop.index0 %}
+                {# Degraded: 2025 cat = all months; Splice cat = Q1 only (first 3 months) #}
+                {% set dg = (category == '2025' and mi < 12) or (category == 'Splice' and mi < 3) %}
+                {% if val is none %}
+                  <td class="month-cell val-fut" aria-label="{{ months[mi] }}: —">—</td>
+                {% elif dg %}
+                  <td class="month-cell val-dg"
+                    title="{{ months[mi] }}: downgraded ({{ category }} category)"
+                    aria-label="{{ months[mi] }}: ${{ '%.1f'|format(val) }}M (downgraded)"
+                  >${{ '%.1f'|format(val) }}M</td>
+                {% elif val >= 5.5 %}
+                  <td class="month-cell val-pos"
+                    aria-label="{{ months[mi] }}: ${{ '%.1f'|format(val) }}M"
+                  >${{ '%.1f'|format(val) }}M</td>
+                {% elif val < 3.0 %}
+                  <td class="month-cell val-neg"
+                    aria-label="{{ months[mi] }}: ${{ '%.1f'|format(val) }}M"
+                  >${{ '%.1f'|format(val) }}M</td>
+                {% else %}
+                  <td class="month-cell val-neu"
+                    aria-label="{{ months[mi] }}: ${{ '%.1f'|format(val) }}M"
+                  >${{ '%.1f'|format(val) }}M</td>
+                {% endif %}
+              {% endfor %}
+            {% endmacro %}
+
+            {% for row in rows %}
+              {% set ri = loop.index0 %}
+
+              {# ── Parent row ──
+                 data-vals stores the raw numbers so JS can sum them for the chart
+                 and recalculate MoM values on view toggle. #}
+              <tr class="data-row {{ row.cls }}"
+                data-row-idx="{{ ri }}"
+                data-state="{{ row.state }}"
+                data-metro="{{ row.metro }}"
+                data-industry="{{ row.industry }}"
+                data-name="{{ row.name | e }}"
+                data-cat="{{ row.category }}"
+                data-vals='{{ row.vals | tojson }}'
+                aria-rowindex="{{ ri + 1 }}">
+
+                <td class="cb-cell">
+                  <input type="checkbox" class="row-cb"
+                    aria-label="Select {{ row.name | e }}"
+                    onchange="updateSelectAll();updateChart()">
+                </td>
+
+                <td class="desc-cell">
+                  <div class="desc-inner">
+                    {% if row.expandable %}
+                      <button class="expand-btn" id="expand-{{ ri }}"
+                        aria-expanded="false"
+                        aria-controls="grp-{{ ri }}"
+                        aria-label="Expand {{ row.name | e }}"
+                        onclick="toggleRow({{ ri }},this)">
+                        <svg viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
+                          <path d="M2 1l4 3-4 3V1z"/>
+                        </svg>
+                      </button>
+                    {% else %}
+                      <span class="expand-spacer" aria-hidden="true"></span>
+                    {% endif %}
+                    <div class="desc-text">
+                      <div class="desc-name" title="{{ row.name | e }}">{{ row.name }}</div>
+                      <div class="desc-sub">{{ row.sub }}</div>
+                    </div>
+                  </div>
+                </td>
+
+                {{ month_cells(row.vals, row.category) }}
+
+                <td class="cat-cell">
+                  <span class="chip chip-{{ row.category | lower }}">{{ row.category }}</span>
+                </td>
+              </tr>
+
+              {# ── Child rows (Budget / Actual spend / Variance) ── #}
+              {% if row.expandable %}
+                {% for child in row.children %}
+                  {% set ci = loop.index0 %}
+
+                  <tr class="sub-row sub-hidden {{ row.cls }}"
+                    id="child-{{ ri }}-{{ ci }}"
+                    data-parent-idx="{{ ri }}"
+                    data-child-idx="{{ ci }}"
+                    data-group="grp-{{ ri }}"
+                    data-cat="{{ row.category }}"
+                    data-vals='{{ child.vals | tojson }}'
+                    aria-rowindex="{{ ri + 1 }}">
+
+                    <td class="cb-cell">
+                      <input type="checkbox" class="child-cb"
+                        aria-label="Select {{ row.name | e }} – {{ child.label | e }}"
+                        onchange="updateSelectAll()">
+                    </td>
+
+                    <td class="desc-cell desc-l2">
+                      <div class="desc-inner">
+                        {% if child.expandable %}
+                          <button class="expand-btn" id="expand-{{ ri }}-{{ ci }}"
+                            aria-expanded="false"
+                            aria-controls="grp-{{ ri }}-{{ ci }}"
+                            aria-label="Expand {{ child.label | e }}"
+                            onclick="toggleChild({{ ri }},{{ ci }},this)">
+                            <svg viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
+                              <path d="M2 1l4 3-4 3V1z"/>
+                            </svg>
+                          </button>
+                        {% else %}
+                          <span class="expand-spacer" aria-hidden="true"></span>
+                        {% endif %}
+                        <div class="desc-text">
+                          <div class="desc-name" title="{{ child.label | e }}">{{ child.label }}</div>
+                        </div>
+                      </div>
+                    </td>
+
+                    {{ month_cells(child.vals, row.category) }}
+
+                    <td class="cat-cell">
+                      <span class="chip chip-{{ row.category | lower }}">{{ row.category }}</span>
+                    </td>
+                  </tr>
+
+                  {# ── Grandchild quarter rows (Q1–Q4) ── #}
+                  {% if child.expandable %}
+                    {% for quarter in child.quarters %}
+                      <tr class="sub-row sub-hidden {{ row.cls }}"
+                        data-parent-idx="{{ ri }}"
+                        data-child-idx="{{ ci }}"
+                        data-grand-child="true"
+                        data-group="grp-{{ ri }}-{{ ci }}"
+                        data-cat="{{ row.category }}"
+                        data-vals='{{ quarter.vals | tojson }}'>
+
+                        <td class="cb-cell">
+                          <input type="checkbox" class="grandchild-cb"
+                            aria-label="Select {{ row.name | e }} – {{ child.label | e }} – {{ quarter.label }}">
+                        </td>
+
+                        <td class="desc-cell desc-l3">
+                          <div class="desc-inner">
+                            <span class="expand-spacer" aria-hidden="true"></span>
+                            <div class="desc-text">
+                              <div class="desc-name">{{ quarter.label }}</div>
+                            </div>
+                          </div>
+                        </td>
+
+                        {{ month_cells(quarter.vals, row.category) }}
+
+                        <td class="cat-cell">
+                          <span class="chip chip-{{ row.category | lower }}">{{ row.category }}</span>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+
+                {% endfor %}
+              {% endif %}
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{# ── Column filter dropdown (shared popup, repositioned by JS openFilter()) ── #}
+<div class="filter-dropdown" id="filterDropdown"
+  role="dialog" aria-modal="true" aria-label="Column filter">
+  <div class="fd-search-wrap">
+    <label for="fdSearch" class="ctrl-label" style="display:block;margin-bottom:4px">
+      Search values
+    </label>
+    <input type="text" class="fd-search" id="fdSearch"
+      placeholder="Type to search…" oninput="filterDropdownSearch()" autocomplete="off">
+  </div>
+  <div class="fd-actions">
+    <button class="fd-act-btn" onclick="fdSelectAll()">Select all</button>
+    <button class="fd-act-btn" onclick="fdClearAll()">Clear all</button>
+  </div>
+  <div class="fd-list" id="fdList" role="group" aria-label="Filter options"></div>
+  <div class="fd-footer">
+    <button class="fd-btn fd-btn-cancel" onclick="closeDropdown()">Cancel</button>
+    <button class="fd-btn fd-btn-apply" onclick="applyDropdownFilter()">Apply</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+
+{# Inject the two data-driven globals before loading the JS file #}
+<script>
+  const MONTHS = {{ months | tojson }};
+  const NAV    = {{ nav_js | tojson }};
+</script>
+<script src="series-explorer.js"></script>
+
+</body>
+</html>
